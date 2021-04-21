@@ -1,0 +1,490 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-climbing-dot" [fullScreen]="true">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>
+
+
+<div class="wrapper ">
+  <div class="sidebar" data-color="white" data-active-color="danger">
+    <div class="logo">
+      <a class="simple-text logo-normal">
+        Cursos Administrador
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li class="active ">
+          <a (click)="manageDashboards(1)">
+            <i class="nc-icon nc-paper"></i>
+            <p>Cursos</p>
+          </a>
+        </li>
+
+        <li>
+          <a (click)="manageDashboards(2)">
+            <i class="nc-icon nc-bank"></i>
+            <p>Instituto</p>
+          </a>
+        </li>
+
+        <li>
+          <a (click)="manageDashboards(3)">
+            <i class="nc-icon nc-single-02"></i>
+            <p>Usuarios</p>
+          </a>
+        </li>
+
+        <li>
+          <a (click)="manageDashboards(4)">
+            <i class="nc-icon nc-circle-10"></i>
+            <p>Solicitudes</p>
+          </a>
+        </li>
+
+        <li>
+          <a (click)="manageDashboards(5)">
+            <i class="nc-icon nc-single-copy-04"></i>
+            <p>Solicitudes por aceptar</p>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="main-panel">
+    <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+      <div class="container-fluid">
+        <div class="navbar-wrapper">
+          <input type="text" value="" class="form-control" placeholder="Buscar...">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <i class="nc-icon nc-zoom-split"></i>
+            </div>
+          </div>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+          <form>
+            <div class="input-group no-border"  >
+              <button class="btn btn-danger" (click)="cerrarSesion()">
+                CERRAR SESIÓN
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- CURSO -->
+    <br><br>
+
+    <!--curso-->
+    <div *ngIf="view.panel01">
+      <section class="cards-section text-center">
+        <div class="container">
+          <button class="btn btn-primary" (click)="abrirModalCursos(1, 0)">
+            Agregar Cursos
+          </button>
+          <br><br>
+          <div>
+            <table style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Curso</th>
+                  <th>Descripción</th>
+                  <th>Imagen</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let curso of lstCursos; let i = index">
+                  <td><strong>{{i+1}}</strong></td>
+                  <td>{{ curso.nombre }}</td>
+                  <td>{{ curso.descripcion_corta }}</td>
+                  <td><img [src]="curso.imagen" width="100"><button (click)="abrirModalImagenCurso(2, 0)"
+                      class="btn btn-link">Modificar IMG</button></td>
+                  <td>
+                    <button style="align-items: center;" class="btn btn-primary" (click)="abrirModalCursos(2, curso)">
+                      <i class="far fa-edit"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <button style="align-items: center;" class="btn btn-danger" (click)="eliminarCurso(curso)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Instituo -->
+
+    <div *ngIf="view.panel02">
+      <section class="cards-section text-center">
+        <div class="container">
+          <button class="btn btn-primary" (click)="abrirModalInstituto(1, 0)">
+            Agregar Instituto
+          </button>
+          <br><br>
+          <div>
+            <table style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>nombre</th>
+                  <th>Imagen</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let instituto of lstInstituto; let i = index">
+                  <td><strong>{{i+1}}</strong></td>
+                  <td>{{ instituto.nombre }}</td>
+                  <td><img [src]="instituto.imagen" width="100"><button (click)="abrirModalInstituto(2, 0)"
+                    class="btn btn-link">Modificar IMG</button></td>
+                <td>
+                    <button style="align-items: center;" class="btn btn-primary"
+                      (click)="abrirModalInstituto(2, instituto)">
+                      <i class="far fa-edit"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <button style="align-items: center;" class="btn btn-danger" (click)="eliminarInstituto(instituto)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <!--usuario-->
+    <div *ngIf="view.panel03">
+      <section class="cards-section text-center">
+        <div class="container">
+          <br><br>
+          <div>
+            <table style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Identificación</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let participante of lstParticipante; let i = index">
+                  <td><strong>{{i+1}}</strong></td>
+                  <td>{{ participante.nombreP }}</td>
+                  <td>{{ participante.correoP }}</td>
+                  <td>{{ participante.identificacionP }}</td>
+                  <td>
+                    <button style="align-items: center;" class="btn btn-primary"
+                    (click)="abrirModalParticipante(2, participante)">
+                    <i class="far fa-edit"></i>
+                  </button>
+                  </td>
+                  <td>
+                    <button style="align-items: center;" class="btn btn-danger" (click)="eliminarParticipante(participante)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <!--Solicitudes-->
+    <div *ngIf="view.panel04">
+      <section class="cards-section text-center">
+        <div class="container">
+          <br><br>
+          <div>
+            <table style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Nombre</th>
+                  <th>Ver solicitud</th>
+                  <th></th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <!-- <strong>{{i+1}}</strong> -->
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <button style="align-items: center;" class="btn btn-danger">
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!--Solicitudes por aceptar-->
+    <div *ngIf="view.panel05">
+      <section class="cards-section text-center">
+        <div class="container">
+          <br><br>
+          <div>
+            <table style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Nombre</th>
+                  <th>Ver solicitud</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <!-- <strong>{{i+1}}</strong> -->
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td> <button style="align-items: center;" class="btn btn-primary">
+                      <i class="far fa-check-square"></i>
+                    </button></td>
+                  <td> <button style="align-items: center;" class="btn btn-danger">
+                      <i class="far fa-window-close"></i>
+                    </button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+
+
+    <footer class="footer footer-black  footer-white ">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="credits ml-auto">
+            <span class="copyright">
+              ©
+              <script>
+                document.write(new Date().getFullYear())
+              </script>Elaborado <i class="fa fa-heart heart"></i> by Pamela Garzón
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="exampleModalLabel">Agregar Cursos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="formularioCurso" (ngSubmit)="guardarCurso($event)">
+          <div class="form-group">
+            <div></div>
+            <label>Nombre del curso</label>
+            <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre Curso">
+          </div>
+          <div>
+            <label>Descripción Corta</label>
+            <input type="text" class="form-control" formControlName="descripcion_corta" placeholder="Descripción Corta">
+          </div>
+          <div class="form-group">
+            <label>Descripción larga</label>
+            <textarea class="form-control" formControlName="descripcion_larga"
+              placeholder="Descripción Larga"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Ícono</label>
+            <input type="textarea" class="form-control" formControlName="icono" placeholder="icono">
+          </div>
+          <div >
+            <label for="file-upload" class="custom-file-upload">Imagen Curso</label>
+            <br>
+            <input formControlName="imagen" id="file-curso" type="file" (change)="getImage('file-curso')" />
+          </div>
+          <br>
+          <div class="form-group">
+            <label>Seleccione un Instituto</label>
+            <br> <select class="form-control" id="instituto" formControlName="idInstituto">
+              <option *ngFor="let instituto of lstInstituto" [value]="instituto.idInstituto">{{ instituto.nombre }}
+              </option>
+            </select>
+          </div>    
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+            <button type="submit" class="btn btn-primary">Guardar Curso</button>
+          </div>     
+        </form>     
+         
+      </div>      
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- Modal Imagen Curso  -->
+<div class="modal fade" id="ejemlomodaImagenCurso" tabindex="-1" aria-labelledby="ejemlomodaImagenCurso"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ejemlomodaImagenCurso">Cambiar Imagen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="formularioInstituto" (ngSubmit)="guardarInstituto($event)">
+        <div class="modal-body">
+
+          <label for="file-upload" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Logo del Insituto
+          </label>
+          <input formControlName="imagen" id="file-instituto" type="file" (change)="getImage('file-instituto')" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-primary">Guardar Insituto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal Insituto -->
+<div class="modal fade" id="ejemlomodal" tabindex="-1" aria-labelledby="ejemlomodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ejemlomodalLabel">Agregar Institutos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="formularioInstituto" (ngSubmit)="guardarInstituto($event)">
+        <div class="modal-body">
+
+          <label>Nombre del Instituto</label>
+          <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre Instituto">
+          <br>
+          <label for="file-upload" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Logo del Insituto
+          </label>
+          <input formControlName="imagen" id="file-instituto" type="file" (change)="getImage('file-instituto')" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-primary">Guardar Insituto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Imagen Instituto  -->
+<div class="modal fade" id="ejemlomodaImagenInstituto" tabindex="-1" aria-labelledby="ejemlomodaImagenInstituto"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ejemlomodaImagenInstituto">Cambiar Imagen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="formularioInstituto" (ngSubmit)="guardarInstituto($event)">
+        <div class="modal-body">
+          <input type="text" class="form-control" formControlName="idInstituto">
+          <label for="file-upload" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Logo del Insituto
+          </label>
+          <input formControlName="imagen" id="file-instituto" type="file" (change)="getImage('file-instituto')" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-primary">Guardar Insituto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Participante -->
+<div class="modal fade" id="ejemploParticipante" tabindex="-1" aria-labelledby="ejemploParticipante" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ejemploParticipante">Modificar Participante</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="fmrParticipante" (ngSubmit)="modificarParticipante(2)">
+        <div class="modal-body">
+
+          <label>Nombre</label>
+          <input type="text" formControlName="nombreP" class="form-control" placeholder="Nombre">
+          <br>
+          <label>Correo</label>
+          <input type="text" formControlName="correoP" class="form-control" placeholder="Correo">
+          <br>
+          <label>Identificación</label>
+          <input type="text" formControlName="identificacionP" class="form-control" placeholder="Identificación">
+          <br>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-primary">Guardar Participante</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<ngx-spinner bdColor= "rgba(0, 0, 0, 0.8)" size= "medium" color= "#fff" type= "ball-climbing-dot" [fullScreen]= "true"><p style="color: white" > Cargando... </p></ngx-spinner>
+
+
+
+<div class="page-wrapper">
+    <header class="header text-center">
+        <div class="container">
+            <div class="branding">
+                <h1 class="logo">
+                    <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                    <span class="text-highlight">Cursos</span><span class="text-bold"></span>
+                </h1>
+            </div>
+
+             <div class="main-search-box pt-3 pb-4 d-inline-block">
+                 <form class="form-inline search-form justify-content-center" action="" method="get"> <br><br><br>           
+                    <input type="text" placeholder="Buscar Cursos" name="search" class="form-control search-input">                    
+                    <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>                    
+                </form>
+             </div>
+             
+            <div class="social-container">
+                <div class="github-btn mb-2">
+                    <a class="btn btn-primary" data-size="large" [routerLink]="['/login']">Login</a>
+                </div>
+            </div>    
+        </div>
+    </header>
+    
+    <section class="cards-section text-center">
+        <div class="container">
+            <h2 class="title">Bienvenidos a tus cursos</h2>
+            <div class="intro">
+                <p>Bienvenidos a tu página de cursos en la cual podrás aprender o fortalecer tus conocimientos en varias áreas.</p>
+
+            </div>
+            <div id="cards-wrapper" class="cards-wrapper row">
+
+                <div *ngFor="let curso of lstCursos" class="item item-primary col-lg-4 col-6">
+                    <div class="item-inner">
+                        <div class="icon-holder">
+                            <i class="{{ curso.icono }}" style="font-size: 40px;"></i>
+                        </div>
+                        <h3 class="title">{{ curso.nombre }}</h3>  
+                        <p class="intro">{{ curso.descripcion_corta }}</p>
+                        <a class="link" [routerLink]="['/curso/'+curso.idCursos]"><span></span></a>
+                    </div>
+                </div>
+
+            </div>            
+        </div>
+    </section>
+</div>
+
+<footer class="footer text-center">
+    <div class="container">
+        <small class="copyright">Designed with <i class="fas fa-heart"></i> by Pamela Garzón for developers</small>
+ </div>
+</footer>

@@ -1,0 +1,39 @@
+<ngx-spinner bdColor= "rgba(0, 0, 0, 0.8)" size= "medium" color= "#fff" type= "ball-climbing-dot" [fullScreen]= "true"><p style="color: white" > Cargando... </p></ngx-spinner>
+
+<div class="page-wrapper">
+    <header class="header text-center">
+        <div class="container">
+            <div class="branding">
+                <h1 class="logo">
+                    <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                    <span class="text-highlight">Curso</span><span class="text-bold"></span>
+                </h1>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br><br>
+    </header>
+
+    <section class="cards-section text-center">
+        <div class="container">
+
+            <div class="intro">
+                <h1> {{ curso.nombre }}</h1>
+            </div>
+            <p> {{ curso.descripcion_corta }} </p>
+
+            <img src="{{ curso.imagen }}" class="img-fluid" alt="" width="30%">
+
+            <br><br><br>
+            <p style="text-align: justify;" > {{ curso.descripcion_larga }} </p>
+            <div>
+                <a class="btn btn-primary" data-size="large" (click)="prueba(curso.idCursos)">POSTULAR</a> </div>
+        </div>
+    </section>
+
+</div>
+
+<footer class="footer text-center">
+    <div class="container">
+        <small class="copyright">Designed with <i class="fas fa-heart"></i> by Pamela Garzón for developers</small>
+    </div>
+</footer>

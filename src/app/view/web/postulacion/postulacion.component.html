@@ -1,0 +1,238 @@
+<ngx-spinner bdColor= "rgba(0, 0, 0, 0.8)" size= "medium" color= "#fff" type= "ball-climbing-dot" [fullScreen]= "true"><p style="color: white" > Cargando... </p></ngx-spinner>
+<div class="page-wrapper">
+    <header class="header text-center">
+        <div class="container">
+            <div class="branding">
+                <h1 class="logo">
+                    <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                    <span class="text-highlight">Curso</span><span class="text-bold"></span>
+                </h1>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br><br>
+    </header>
+
+    <section class="cards-section text-center">
+
+        <div class="container">
+            <h1 class="title">REGISTRO PARA EL CURSO DE:</h1>
+            <h3>{{curso.nombre}}</h3>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <!--  <h2>FORMULARIO</h2> -->
+                </div>
+                <div class="card-body">
+
+
+                    <!--FORMULARIO 1-->
+                    <form action="">
+                    <div *ngIf="view.panel01" style="text-align: justify; padding-bottom: 10px; padding-top: 20px;">
+                        <div class="title">
+                            DATOS PERSONALES
+                        </div>
+                        <br><br>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Nombres y Apellidos</label>
+                                <input type="text" class="form-control"  placeholder="Nombres y Apellidos">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Correo Electrónico</label>
+                                <input type="email" class="form-control"  placeholder="Correo Electrónico">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <input type="text" class="form-control" placeholder="Dirección">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>País</label>
+                                <input type="text" class="form-control" placeholder="País">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Ciudad</label>
+                                <input type="email" class="form-control"  placeholder="Ciudad">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Provincia</label>
+                                <input type="text" class="form-control" placeholder="Ciudad">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Estado Civil</label>
+                                <select id="inputState" class="form-control" >
+                                    <option selected>Seleccione...</option>
+                                    <option>Solter@</option>
+                                    <option>Casad@</option>
+                                    <option>Divorciad@</option>
+                                    <option>Viud@</option>
+                                    <option>Unión Libre</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputZip">Fecha de Nacimiento</label>
+                                <input class="form-control" min="1951-01-01" max="2009-12-31" type="date" value="2011-08-19">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+
+                        <div class="row w-100 align-items-center">
+                            <div class="col text-center">
+                                <button class="btn btn-primary" (click)="manageDashboards(2)">siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                    <!-- FORMULARIO 2 -->
+                    <div *ngIf="view.panel02" style="text-align: justify; padding-bottom: 10px; padding-top: 20px;">
+                        <div class="title">
+                            REFERENCIAS
+                        </div>
+                        <br><br>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Referencias Personales 1</label>
+                                <input type="text" class="form-control" placeholder="Nombres y Apellidos">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label></label>
+                                <input type="email" class="form-control" placeholder="Correo Electrónico">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" placeholder="Contacto">
+                            </div>
+                            <div class="form-group col-md-6">
+
+                                <input type="email" class="form-control" placeholder="Parentesco">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Referencias Personales 2</label>
+                                <input type="text" class="form-control" placeholder="Nombres y Apellidos">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label></label>
+                                <input type="email" class="form-control" placeholder="Correo Electrónico">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" placeholder="Contacto">
+                            </div>
+                            <div class="form-group col-md-6">
+
+                                <input type="email" class="form-control" placeholder="Parentesco">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Referencias Laborales 1</label>
+                                <input type="text" class="form-control" placeholder="Nombres y Apellidos">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label></label>
+                                <input type="email" class="form-control" placeholder="Correo Electrónico">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" placeholder="Contacto">
+                            </div>
+                            <div class="form-group col-md-6">
+
+                                <input type="email" class="form-control" placeholder="Parentesco">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Referencias Laborales 2</label>
+                                <input type="text" class="form-control"laceholder="Nombres y Apellidos">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label></label>
+                                <input type="email" class="form-control" placeholder="Correo Electrónico">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" placeholder="Contacto">
+                            </div>
+                            <div class="form-group col-md-6">
+
+                                <input type="email" class="form-control" placeholder="Parentesco">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        </div>
+
+                        <div class="row w-100 align-items-center">
+                            <div class="col text-center">
+                                <button class="btn btn-primary" (click)="manageDashboards(1)">atras</button>
+                                <button class="btn btn-primary" (click)="manageDashboards(3)">siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--FORMULARIO 3-->
+                    <div *ngIf="view.panel03" style="text-align: justify; padding-bottom: 10px; padding-top: 20px;">
+                        <div class="title">
+                            DATOS ADJUNTOS DE CAPACITACIONES Y TÍTULOS
+                        </div>
+
+                        <br><br>
+                        <div class="form-row">
+                            <label>
+                                <h3>Archivos de capacitaciones obtenidos</h3>
+                            </label>
+                            <div class="form-group col-md-6">
+                                <label for="file-upload" class="custom-file-upload">
+                                    <i class="fa fa-cloud-upload"></i> Subir archivo
+                                </label>
+                                <input id="file-upload" type="file" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label>
+                                <h3>Archivos de títulos obtenidos</h3>
+                            </label>
+                            <div class="form-group col-md-6">
+                                <label for="file-upload" class="custom-file-upload">
+                                    <i class="fa fa-cloud-upload"></i> Subir archivo
+                                </label>
+                                <input id="file-upload" type="file" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="row w-100 align-items-center">
+                            <div class="col text-center">
+                                <button class="btn btn-primary" (click)="manageDashboards(2)">atras</button>
+                                <button class="btn btn-primary" (click)="manageDashboards(4)">Finalizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer text-center">
+    <div class="container">
+        <small class="copyright">Designed with <i class="fas fa-heart"></i> by Pamela Garzón for developers</small>
+    </div>
+</footer>

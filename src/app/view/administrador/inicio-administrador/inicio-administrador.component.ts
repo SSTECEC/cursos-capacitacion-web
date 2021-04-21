@@ -104,6 +104,11 @@ export class InicioAdministradorComponent implements OnInit {
     this.listarCursos();
     this.listarInstitutos();
     this.listarParticipante();
+    $(document).ready(function() {
+      $('#summernote').summernote({
+        height: 350,
+      });
+    });
   }
 
 
@@ -228,7 +233,7 @@ export class InicioAdministradorComponent implements OnInit {
 
   public guardarCurso(event: any) {
 
-
+    this.formularioCurso.controls['descripcion_larga'].setValue($('#summernote').summernote('code'));
     var formulario = this.formularioCurso.value;
     if (this.formularioCurso.valid) {
       var datos = {

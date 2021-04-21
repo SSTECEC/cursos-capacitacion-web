@@ -65,7 +65,7 @@
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
           <form>
-            <div class="input-group no-border"  >
+            <div class="input-group no-border">
               <button class="btn btn-danger" (click)="cerrarSesion()">
                 CERRAR SESIÓN
               </button>
@@ -149,8 +149,8 @@
                   <td><strong>{{i+1}}</strong></td>
                   <td>{{ instituto.nombre }}</td>
                   <td><img [src]="instituto.imagen" width="100"><button (click)="abrirModalInstituto(2, 0)"
-                    class="btn btn-link">Modificar IMG</button></td>
-                <td>
+                      class="btn btn-link">Modificar IMG</button></td>
+                  <td>
                     <button style="align-items: center;" class="btn btn-primary"
                       (click)="abrirModalInstituto(2, instituto)">
                       <i class="far fa-edit"></i>
@@ -195,12 +195,13 @@
                   <td>{{ participante.identificacionP }}</td>
                   <td>
                     <button style="align-items: center;" class="btn btn-primary"
-                    (click)="abrirModalParticipante(2, participante)">
-                    <i class="far fa-edit"></i>
-                  </button>
+                      (click)="abrirModalParticipante(2, participante)">
+                      <i class="far fa-edit"></i>
+                    </button>
                   </td>
                   <td>
-                    <button style="align-items: center;" class="btn btn-danger" (click)="eliminarParticipante(participante)">
+                    <button style="align-items: center;" class="btn btn-danger"
+                      (click)="eliminarParticipante(participante)">
                       <i class="far fa-trash-alt"></i>
                     </button>
                   </td>
@@ -307,8 +308,9 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 id="exampleModalLabel">Agregar Cursos</h5>
@@ -330,14 +332,18 @@
           </div>
           <div class="form-group">
             <label>Descripción larga</label>
+
+            <div id="summernote" formControlName="descripcion_larga"></div>
+
+            <!-- 
             <textarea class="form-control" formControlName="descripcion_larga"
-              placeholder="Descripción Larga"></textarea>
+              placeholder="Descripción Larga"></textarea> -->
           </div>
           <div class="form-group">
             <label>Ícono</label>
             <input type="textarea" class="form-control" formControlName="icono" placeholder="icono">
           </div>
-          <div >
+          <div>
             <label for="file-upload" class="custom-file-upload">Imagen Curso</label>
             <br>
             <input formControlName="imagen" id="file-curso" type="file" (change)="getImage('file-curso')" />
@@ -349,17 +355,17 @@
               <option *ngFor="let instituto of lstInstituto" [value]="instituto.idInstituto">{{ instituto.nombre }}
               </option>
             </select>
-          </div>    
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
             <button type="submit" class="btn btn-primary">Guardar Curso</button>
-          </div>     
-        </form>     
-         
-      </div>      
+          </div>
+        </form>
+
       </div>
     </div>
   </div>
+</div>
 
 
 
@@ -479,7 +485,7 @@
           <label>Identificación</label>
           <input type="text" formControlName="identificacionP" class="form-control" placeholder="Identificación">
           <br>
-          </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
           <button type="submit" class="btn btn-primary">Guardar Participante</button>

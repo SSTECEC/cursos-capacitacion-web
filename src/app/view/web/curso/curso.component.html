@@ -13,18 +13,18 @@
         <br><br><br><br><br><br><br><br><br>
     </header>
 
-    <section class="cards-section text-center">
+    <section class="cards-section">
         <div class="container">
 
-            <div class="intro">
+            <div>
                 <h1> {{ curso.nombre }}</h1>
             </div>
-            <p> {{ curso.descripcion_corta }} </p>
 
             <img src="{{ curso.imagen }}" class="img-fluid" alt="" width="30%">
 
             <br><br><br>
-            <p style="text-align: justify;" > {{ curso.descripcion_larga }} </p>
+
+            <div [innerHTML]="curso.descripcion_larga"></div>
             <div>
                 <a class="btn btn-primary" data-size="large" (click)="prueba(curso.idCursos)">POSTULAR</a> </div>
         </div>

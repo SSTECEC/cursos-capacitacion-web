@@ -102,25 +102,29 @@
                   <th>N°</th>
                   <th>Nombre</th>
                   <th>Correo</th>
+                  <th>Identificación</th>
+                  <th>País</th>
+                  <th>Estado Civil</th>
+                  <th>Fecha de Nacimiento</th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><strong><!-- {{i+1}} --></strong></td>
-                  <td><!-- {{ participante.nombreP }} --></td>
-                  <td><!-- {{ participante.correoP }} --></td>
-                  <td>
-                    <button style="align-items: center;" class="btn btn-primary">
-                      <i class="far fa-edit"></i>
-                    </button>
-                  </td>
-                  <td>
-                    <button style="align-items: center;" class="btn btn-danger">
-                      <i class="far fa-trash-alt"></i>
-                    </button>
-                  </td>
+                <tr *ngFor="let participante of lstParticipante; let i = index">
+                  <td><strong>{{i+1}}</strong></td>
+                  <td>{{ participante.nombreP }}</td>
+                  <td>{{ participante.correoP }}</td>
+                  <td>{{ participante.identificacionP }}</td>
+                  <td>{{ participante.paisP }}</td>
+                  <td>{{ participante.estadoCivilP }}</td>
+                  <td>{{ participante.fechaNac }}</td>
+                  <td> <button style="align-items: center;" class="btn btn-primary">
+                      <i class="far fa-check-square"></i>
+                    </button></td>
+                  <td> <button style="align-items: center;" class="btn btn-danger">
+                      <i class="far fa-window-close"></i>
+                    </button></td>
                 </tr>
               </tbody>
             </table>

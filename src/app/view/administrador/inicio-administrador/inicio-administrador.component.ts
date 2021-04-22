@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/servicios/api/api.service';
 import { Instituto } from 'src/app/clases/Instituto';
 import { Router } from '@angular/router';
 import { Participante } from 'src/app/clases/Participante';
+import { Postulacion } from 'src/app/clases/Postulacion';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { SesionService } from 'src/app/servicios/sesion/sesion.service';
@@ -85,16 +86,25 @@ export class InicioAdministradorComponent implements OnInit {
   idParticipante = 0;
   participante: Participante = new Participante('', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
 
+  /* listar Postulacion */
+  idPostulacion = 0;
+  postulacion: Postulacion = new Postulacion(0, 0, 0, 0,);
+
+
   /* listar lstcurso */
   lstCursos: Cursos[] = [];
     /* listar lstInstituto */
   lstInstituto: Instituto[] = [];
     /* listar lstParticipante */
   lstParticipante: Participante[] = [];
+  /* listar lstParticipante */
+  lstPostulacion: Postulacion[] = [];
+  
 
   tipoCurso = 0;
   tipoInstituto = 0;
   tipoParticipante = 0;
+  tipoPostulacion = 0;
   constructor(private conexion: ApiService, private spinner: NgxSpinnerService, private ruta: Router, private formBuilder: FormBuilder, private sesion: SesionService) {
 
   }
@@ -104,6 +114,7 @@ export class InicioAdministradorComponent implements OnInit {
     this.listarCursos();
     this.listarInstitutos();
     this.listarParticipante();
+    this.listarPostulacion();
     $(document).ready(function() {
       $('#summernote').summernote({
         height: 350,
@@ -158,6 +169,20 @@ export class InicioAdministradorComponent implements OnInit {
     );
   }
 
+
+  listarPostulacion() {
+    this.spinner.show();
+    this.conexion.get("listarPostulacion?idPostulacion=" + this.idPostulacion, "").subscribe(
+      (res: any) => {
+        this.lstPostulacion = res.resultado;
+        this.spinner.hide();
+        console.log(this.lstPostulacion);
+      }, err => {
+        this.spinner.hide();
+        console.log(err) 
+      }
+    );
+  }
 
 
 
@@ -250,8 +275,15 @@ export class InicioAdministradorComponent implements OnInit {
       this.spinner.show();
       this.conexion.post("gestionCursos", "", datos).subscribe(
         (res: any) => {
-          this.spinner.hide();
+          this.spinner.hide();          
           this.listarCursos();
+          Swal.fire({
+            position: 'top',
+            icon: 'success',
+            title: 'Curso Guardado',
+            showConfirmButton: false,
+            timer: 3000
+          })
         }, err => {
           this.spinner.hide();
           console.log(err)
@@ -358,6 +390,13 @@ export class InicioAdministradorComponent implements OnInit {
       this.conexion.post("gestionInstituto", "", datos).subscribe(
         (res: any) => {
           this.spinner.hide();
+          Swal.fire({
+            position: 'top',
+            icon: 'success',
+            title: 'Instituto Guardado',
+            showConfirmButton: false,
+            timer: 3000
+          })
           this.listarInstitutos();
         }, err => {
           this.spinner.hide();
@@ -445,7 +484,7 @@ export class InicioAdministradorComponent implements OnInit {
   }
 
 
-  /*CRUD USUARIO*/
+  /*CRUD PARTICIPANTE*/
 
   public abrirModalParticipante(tipo: number, datos: any) {
     this.tipoParticipante = tipo;
@@ -480,10 +519,10 @@ export class InicioAdministradorComponent implements OnInit {
           $('#ejemploParticipante').modal('toggle');
           Swal.fire({
             position: 'top',
-            icon: 'error',
+            icon: 'success',
             title: 'Participante Actualizado',
             showConfirmButton: false,
-            timer: 1500
+            timer: 3000
           })
           this.listarParticipante();
         }, err => {
@@ -554,6 +593,40 @@ export class InicioAdministradorComponent implements OnInit {
     })
   }
 
+
+
+  /* POSTULACION ELIMINAR */
+
+  public eliminarPostulacion(postulacionSelecionado: any) {
+    console.log(postulacionSelecionado);
+    var datos = {
+      identificador: 1,
+      idPostulacion: postulacionSelecionado.idPostulacion,
+      estadoP: 0
+        }
+
+        Swal.fire({
+      title: 'Quiere eliminar la Postulacion?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Postulacion!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+        this.conexion.post("gestionPostulacion", "", datos).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            this.listarPostulacion();
+          }, err => {
+            this.spinner.hide();
+            console.log(err)
+          }
+        );
+      }
+    })
+  }
 
   /* cerrar sesion */
   public cerrarSesion(){

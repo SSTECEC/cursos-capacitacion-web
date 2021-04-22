@@ -97,3 +97,7 @@ tr:last-of-type td:first-child {
 tr:last-of-type td:last-child {
 	box-shadow: inset -1px -1px 0 #fff;
 }	
+
+select {
+	font-family: 'FontAwesome', 'Second Font name'
+  }

@@ -1,0 +1,54 @@
+<div class="sidebar" data-color="white" data-active-color="danger">
+  <div class="logo">
+    <a class="simple-text logo-normal">
+      Cursos Administrador
+    </a>
+  </div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      <li class="active ">
+        <a [routerLink]="['/administrador/certificaciones']">
+          <i class="nc-icon nc-paper"></i>
+          <p>Cursos</p>
+        </a>
+      </li>
+
+      <li>
+        <a [routerLink]="['/administrador/instituto']">
+          <i class="nc-icon nc-bank"></i>
+          <p>Instituto</p>
+        </a>
+      </li>
+
+      <li>
+        <a [routerLink]="['/administrador/solicitudes']">
+          <i class="nc-icon nc-circle-10"></i>
+          <p>Solicitudes</p>
+        </a>
+      </li>
+
+      <li>
+        <a [routerLink]="['/administrador/usuarios']">
+          <i class="nc-icon nc-single-02"></i>
+          <p>Usuarios</p>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+  
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+      <form>
+        <div class="input-group no-border">
+          <button class="btn btn-danger" (click)="cerrarSesion()">
+            CERRAR SESIÓN
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>

@@ -60,7 +60,7 @@ export class ParticipanteComponent implements OnInit {
     contactoL: ['', [Validators.required]],
     parentescoL: ['', [Validators.required]],
     estadoP: [1],
-  
+    idCurso: [0]
     
   });
 
@@ -141,7 +141,7 @@ export class ParticipanteComponent implements OnInit {
   public guardarParticipante(valor: any) {
 
     this.tipoParticipante = valor;
-
+    this.fmrParticipante.controls['idCurso'].setValue(this.idParticipante);
     var formulario = this.fmrParticipante.value;
     if (this.fmrParticipante.valid) {
       var datos = {
@@ -164,7 +164,8 @@ export class ParticipanteComponent implements OnInit {
         correoRefeL: formulario.correoRefeL,
         contactoL: formulario.contactoL,
         parentescoL: formulario.parentescoL,
-        estadoP: this.tipoParticipante == 1 ? 1 : this.tipoParticipante == 4 ? 2 : 0
+        estadoP: this.tipoParticipante == 1 ? 1 : this.tipoParticipante == 4 ? 2 : 0,
+        idCurso: formulario.idCurso
       }
       this.spinner.show();
       this.conexion.post("gestionParticipante",'',datos).subscribe(

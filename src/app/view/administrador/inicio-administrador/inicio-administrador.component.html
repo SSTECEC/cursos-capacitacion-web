@@ -7,7 +7,7 @@
   <div class="sidebar" data-color="white" data-active-color="danger">
     <div class="logo">
       <a class="simple-text logo-normal">
-        Cursos Administrador
+        Administrador
       </a>
     </div>
     <div class="sidebar-wrapper">
@@ -15,7 +15,7 @@
         <li class="active ">
           <a (click)="manageDashboards(1)">
             <i class="nc-icon nc-paper"></i>
-            <p>Cursos</p>
+            <p>Certificaciones</p>
           </a>
         </li>
 
@@ -84,7 +84,7 @@
       <section class="cards-section text-center">
         <div class="container">
           <button class="btn btn-primary" (click)="abrirModalCursos(1, 0)">
-            Agregar Cursos
+            Agregar Certificaciones
           </button>
           <br><br>
           <div>
@@ -92,7 +92,7 @@
               <thead>
                 <tr>
                   <th>N°</th>
-                  <th>Curso</th>
+                  <th>Certificación</th>
                   <th>Descripción</th>
                   <th>Imagen</th>
                   <th></th>
@@ -267,11 +267,15 @@
               <tbody>
                 <tr *ngFor="let participante of lstPostulacion; let i = index">
                   <td><strong>{{i+1}}</strong></td>
-                  <td>{{ postulacion.idCurso }}</td>
-                  <td>{{ postulacion.idParticipante }}</td>
+                  <td>{{ participante.nombre_curso }} </td>
+                  <td>{{ participante.nombre_participante }}</td>
                   <td>
                     <button style="align-items: center;" class="btn btn-primary">
-                      <i class="far fa-edit"></i></button>          
+                      <i class="fa fa-file"></i>
+                    </button>   
+                    <button style="align-items: center;" class="btn btn-info">
+                      <i class="fas fa-file-archive"></i>
+                    </button>          
                   </td>
                   <td>
                     <button style="align-items: center;" class="btn btn-danger"
@@ -314,7 +318,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 id="exampleModalLabel">Agregar Cursos</h5>
+        <h5 id="exampleModalLabel">Agregar Certificación</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -334,7 +338,7 @@
           <div class="form-group">
             <label>Descripción larga</label>
 
-            <div id="summernote" formControlName="descripcion_larga"></div>
+            <div id="summernote"></div>
 
             <!-- 
             <textarea class="form-control" formControlName="descripcion_larga"

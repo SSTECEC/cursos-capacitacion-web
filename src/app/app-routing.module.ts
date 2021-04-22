@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ModalComponent } from './modal/modal.component';
+import { CursosComponent } from './view/administrador/cursos/cursos.component';
 import { InicioAdministradorComponent } from './view/administrador/inicio-administrador/inicio-administrador.component';
 import { InicioClienteComponent } from './view/cliente/inicio-cliente/inicio-cliente.component';
 import { LoginComponent } from './view/general/login/login.component';
@@ -17,7 +18,10 @@ const routes: Routes = [
   { path: 'cliente/inicio', component: InicioClienteComponent},  
   { path: 'curso/:id', component: CursoComponent},
   { path: 'participante/:id', component: ParticipanteComponent },
-  { path: 'modal', component: ModalComponent}
+  { path: 'modal', component: ModalComponent},
+
+  /*RUTAS ADMIN */
+  { path: 'administrador/certificaciones', component: CursosComponent}
 ];
 
 @NgModule({

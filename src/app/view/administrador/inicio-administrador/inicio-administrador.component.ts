@@ -48,37 +48,37 @@ export class InicioAdministradorComponent implements OnInit {
   });
 
 
-    /* Declarar un Formulario Participante */
-    fmrParticipante: FormGroup = this.formBuilder.group({
-      idParticipante: [0],
-      nombreP: ['', [Validators.required]],
-      identificacionP: ['', [Validators.required]],
-      correoP: ['', [Validators.required]],
-      direccionP: [''],
-      paisP: [''],
-      ciudadP:[''],
-      provinciaP: [''],
-      estadoCivilP: [''],
-      fechaNac: [''],
-      nombreRefeP:[''],
-      correoRefeP: [''],
-      contactoP:[''],
-      parentescoP: [''],
-      nombreRefeL:[''],
-      correoRefeL: [''],
-      contactoL:[''],
-      parentescoL:[''],
-      estadoP: [1],
-    
-      
-    });
+  /* Declarar un Formulario Participante */
+  fmrParticipante: FormGroup = this.formBuilder.group({
+    idParticipante: [0],
+    nombreP: ['', [Validators.required]],
+    identificacionP: ['', [Validators.required]],
+    correoP: ['', [Validators.required]],
+    direccionP: [''],
+    paisP: [''],
+    ciudadP: [''],
+    provinciaP: [''],
+    estadoCivilP: [''],
+    fechaNac: [''],
+    nombreRefeP: [''],
+    correoRefeP: [''],
+    contactoP: [''],
+    parentescoP: [''],
+    nombreRefeL: [''],
+    correoRefeL: [''],
+    contactoL: [''],
+    parentescoL: [''],
+    estadoP: [1],
+
+
+  });
 
   imagenCargada: any;
 
   /* listar insituto */
   idInstituto = 0;
   instituto: Instituto = new Instituto('', 0, '', 0);
-  
+
   /* listar Curso */
   curso: Cursos = new Cursos('', 0, '', '', '', '', 1, 0);
 
@@ -88,18 +88,18 @@ export class InicioAdministradorComponent implements OnInit {
 
   /* listar Postulacion */
   idPostulacion = 0;
-  postulacion: Postulacion = new Postulacion(0, 0, 0, 0,);
+  postulacion: Postulacion = new Postulacion(0, 0, 0, 0, '', '');
 
 
   /* listar lstcurso */
   lstCursos: Cursos[] = [];
-    /* listar lstInstituto */
+  /* listar lstInstituto */
   lstInstituto: Instituto[] = [];
-    /* listar lstParticipante */
+  /* listar lstParticipante */
   lstParticipante: Participante[] = [];
   /* listar lstParticipante */
   lstPostulacion: Postulacion[] = [];
-  
+
 
   tipoCurso = 0;
   tipoInstituto = 0;
@@ -115,7 +115,7 @@ export class InicioAdministradorComponent implements OnInit {
     this.listarInstitutos();
     this.listarParticipante();
     this.listarPostulacion();
-    $(document).ready(function() {
+    $(document).ready(function () {
       $('#summernote').summernote({
         height: 350,
       });
@@ -132,7 +132,7 @@ export class InicioAdministradorComponent implements OnInit {
         console.log(this.lstCursos);
       }, err => {
         this.spinner.hide();
-        console.log(err) 
+        console.log(err)
       }
     );
   }
@@ -148,7 +148,7 @@ export class InicioAdministradorComponent implements OnInit {
         console.log(this.lstInstituto);
       }, err => {
         this.spinner.hide();
-        console.log(err) 
+        console.log(err)
       }
     );
   }
@@ -164,7 +164,7 @@ export class InicioAdministradorComponent implements OnInit {
         console.log(this.lstParticipante);
       }, err => {
         this.spinner.hide();
-        console.log(err) 
+        console.log(err)
       }
     );
   }
@@ -172,20 +172,23 @@ export class InicioAdministradorComponent implements OnInit {
 
   listarPostulacion() {
     this.spinner.show();
-    this.conexion.get("listarPostulacion?idPostulacion=" + this.idPostulacion, "").subscribe(
+    this.conexion.get("listarPostulaciones?estado=1", "").subscribe(
       (res: any) => {
+
         this.lstPostulacion = res.resultado;
         this.spinner.hide();
         console.log(this.lstPostulacion);
       }, err => {
         this.spinner.hide();
-        console.log(err) 
+        console.log(err)
       }
     );
   }
 
 
-
+  prue(param: any) {
+    return JSON.stringify(param);
+  }
 
 
   prueba(idPrueba: any) {
@@ -249,7 +252,7 @@ export class InicioAdministradorComponent implements OnInit {
     this.tipoCurso = tipo;
     this.imagenCargada = "";
     $('#exampleModal').modal('show');
-    if(tipo == 2){
+    if (tipo == 2) {
       this.formularioCurso.controls['idCursos'].setValue(datos.idCursos);
     }
     console.log(datos);
@@ -275,7 +278,7 @@ export class InicioAdministradorComponent implements OnInit {
       this.spinner.show();
       this.conexion.post("gestionCursos", "", datos).subscribe(
         (res: any) => {
-          this.spinner.hide();          
+          this.spinner.hide();
           this.listarCursos();
           Swal.fire({
             position: 'top',
@@ -315,58 +318,58 @@ export class InicioAdministradorComponent implements OnInit {
       imagen: "",
       estado: 0,
       idInstituto: 0
-        }
-    
-
-      Swal.fire({
-        title: 'Quiere eliminar el Curso?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.spinner.show();
-          this.conexion.post("gestionCursos", "", datos).subscribe(
-            (res: any) => {
-              this.spinner.hide();
-              this.listarCursos();
-            }, err => {
-              this.spinner.hide();
-              console.log(err)
-            }
-          );
-        }
-      })
     }
-    
 
 
-
-    /* modal curso imagen */
-    public abrirModalImagenCurso(tipo: number, datos: any) {
-      this.tipoCurso = tipo;
-      this.imagenCargada = "";
-      $('#ejemlomodaImagenCurso').modal('show');
-      if(tipo == 2){
-        this.formularioCurso.controls['idCursos'].setValue(datos.idCursos);
+    Swal.fire({
+      title: 'Quiere eliminar el Curso?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+        this.conexion.post("gestionCursos", "", datos).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            this.listarCursos();
+          }, err => {
+            this.spinner.hide();
+            console.log(err)
+          }
+        );
       }
-      if(tipo == 4) {
-        this.formularioCurso.controls['idCursos'].setValue(datos.idCUrsos);
-      }
-      console.log(datos);
-      console.log(datos)
+    })
+  }
+
+
+
+
+  /* modal curso imagen */
+  public abrirModalImagenCurso(tipo: number, datos: any) {
+    this.tipoCurso = tipo;
+    this.imagenCargada = "";
+    $('#ejemlomodaImagenCurso').modal('show');
+    if (tipo == 2) {
+      this.formularioCurso.controls['idCursos'].setValue(datos.idCursos);
     }
+    if (tipo == 4) {
+      this.formularioCurso.controls['idCursos'].setValue(datos.idCUrsos);
+    }
+    console.log(datos);
+    console.log(datos)
+  }
 
 
   /*CRUD INSTITUTO*/
 
-  public abrirModalInstituto(tipo: number, datos : any) {
+  public abrirModalInstituto(tipo: number, datos: any) {
     this.tipoInstituto = tipo;
 
     $('#ejemlomodal').modal('show');
-    if(tipo == 2){
+    if (tipo == 2) {
       this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
     }
     console.log(datos);
@@ -424,9 +427,9 @@ export class InicioAdministradorComponent implements OnInit {
       imagen: "",
       estado: 0
 
-        }
+    }
 
-        Swal.fire({
+    Swal.fire({
       title: 'Quiere eliminar el Instituto?',
       icon: 'warning',
       showCancelButton: true,
@@ -448,22 +451,22 @@ export class InicioAdministradorComponent implements OnInit {
       }
     })
   }
-  
 
-    /* modal Instituto imagen */
-    public abrirModalImagenInstituto(tipo: number, datos: any) {
-      this.tipoCurso = tipo;
-      this.imagenCargada = "";
-      $('#ejemlomodaImagenCurso').modal('show');
-      if(tipo == 2){
-        this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
-      }
-      if(tipo == 4) {
-        this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
-      }
-      console.log(datos);
-      console.log(datos)
+
+  /* modal Instituto imagen */
+  public abrirModalImagenInstituto(tipo: number, datos: any) {
+    this.tipoCurso = tipo;
+    this.imagenCargada = "";
+    $('#ejemlomodaImagenCurso').modal('show');
+    if (tipo == 2) {
+      this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
     }
+    if (tipo == 4) {
+      this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
+    }
+    console.log(datos);
+    console.log(datos)
+  }
 
   /* imagen base 64 */
   public getImage(name: any) {
@@ -490,7 +493,7 @@ export class InicioAdministradorComponent implements OnInit {
     this.tipoParticipante = tipo;
     console.log(datos);
     $('#ejemploParticipante').modal('toggle');
-    if(tipo == 2){
+    if (tipo == 2) {
       this.fmrParticipante.controls['idParticipante'].setValue(datos.idParticipante);
     }
   }
@@ -507,12 +510,12 @@ export class InicioAdministradorComponent implements OnInit {
         idParticipante: formulario.idParticipante,
         nombreP: formulario.nombreP,
         identificacionP: formulario.identificacionP,
-        correoP: formulario.correoP,       
+        correoP: formulario.correoP,
         estadoP: this.tipoParticipante == 1 ? 1 : this.tipoParticipante == 4 ? 2 : 0
       }
 
       this.spinner.show();
-      this.conexion.post("gestionParticipante",'',datos).subscribe(
+      this.conexion.post("gestionParticipante", '', datos).subscribe(
         (res: any) => {
           this.spinner.hide();
           console.log(res);
@@ -550,27 +553,27 @@ export class InicioAdministradorComponent implements OnInit {
       identificador: 3,
       idParticipante: participanteSelecionado.idParticipante,
       nombreP: "",
-      identificacionP:  "",
+      identificacionP: "",
       correoP: "",
-      direccionP:  "",
-      paisP:  "",
+      direccionP: "",
+      paisP: "",
       ciudadP: "",
-      provinciaP:  "",
+      provinciaP: "",
       estadoCivilP: "",
-      fechaNac:  "",
-      nombreRefeP:  "",
+      fechaNac: "",
+      nombreRefeP: "",
       correoRefeP: "",
       contactoP: "",
-      parentescoP:  "",
-      nombreRefeL:  "",
+      parentescoP: "",
+      nombreRefeL: "",
       correoRefeL: "",
-      contactoL:  "",
-      parentescoL:  "",
+      contactoL: "",
+      parentescoL: "",
       estadoP: 0
 
-        }
+    }
 
-        Swal.fire({
+    Swal.fire({
       title: 'Quiere eliminar el Participante?',
       icon: 'warning',
       showCancelButton: true,
@@ -603,9 +606,9 @@ export class InicioAdministradorComponent implements OnInit {
       identificador: 1,
       idPostulacion: postulacionSelecionado.idPostulacion,
       estadoP: 0
-        }
+    }
 
-        Swal.fire({
+    Swal.fire({
       title: 'Quiere eliminar la Postulacion?',
       icon: 'warning',
       showCancelButton: true,
@@ -629,7 +632,7 @@ export class InicioAdministradorComponent implements OnInit {
   }
 
   /* cerrar sesion */
-  public cerrarSesion(){
+  public cerrarSesion() {
     this.sesion.cerrarSesion();
   }
 

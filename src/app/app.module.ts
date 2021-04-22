@@ -20,6 +20,13 @@ import { CursoComponent } from './view/web/curso/curso.component';
 import { PostulacionComponent } from './view/web/postulacion/postulacion.component';
 import { ModalComponent } from './modal/modal.component';
 import { ParticipanteComponent } from './view/web/participante/participante.component';
+import { CursosComponent } from './view/administrador/cursos/cursos.component';
+import { InstitutosComponent } from './view/administrador/institutos/institutos.component';
+import { UsuariosComponent } from './view/administrador/usuarios/usuarios.component';
+import { CapacitacionesComponent } from './view/administrador/capacitaciones/capacitaciones.component';
+import { HeaderComponent } from './view/administrador/componentes/header/header.component';
+import { MenuComponent } from './view/administrador/componentes/menu/menu.component';
+import { FooterComponent } from './view/administrador/componentes/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +38,14 @@ import { ParticipanteComponent } from './view/web/participante/participante.comp
     CursoComponent,
     PostulacionComponent,
     ModalComponent,
-    ParticipanteComponent
+    ParticipanteComponent,
+    CursosComponent,
+    InstitutosComponent,
+    UsuariosComponent,
+    CapacitacionesComponent,
+    HeaderComponent,
+    MenuComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

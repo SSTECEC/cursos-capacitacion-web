@@ -6,6 +6,8 @@ import { Archivo } from 'src/app/clases/Archivo';
 import { Participante } from 'src/app/clases/Participante';
 import { ApiService } from 'src/app/servicios/api/api.service';
 import Swal from 'sweetalert2';
+import { GenericoService } from 'src/app/servicios/metodo/generico.service';
+import { ArchivosPostulacion } from 'src/app/clases/ArchivosPostulacion';
 
 @Component({
   selector: 'app-participante',
@@ -15,10 +17,11 @@ import Swal from 'sweetalert2';
 export class ParticipanteComponent implements OnInit {
 
   idParticipante = 0;
-  participante: Participante = new Participante ('', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0 );
+  participante: Participante = new Participante('', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
 
   idArchivo = 0;
-  archivo: Archivo = new Archivo ('',0, '', 0 );
+  archivo: Archivo = new Archivo('', 0, '', 0);
+
 
 
   /* cambiar formulario */
@@ -27,9 +30,9 @@ export class ParticipanteComponent implements OnInit {
     "panel02": false,
     "panel03": false,
     "panel04": false,
-   }
-   /* guardar datos en formulario */
-   public fmrUsuarios : any = {
+  }
+  /* guardar datos en formulario */
+  public fmrUsuarios: any = {
     nombre: "",
     email: "",
     direccion: "",
@@ -37,14 +40,14 @@ export class ParticipanteComponent implements OnInit {
     ciudad: "",
     provincia: "",
     estadoCivil: "",
-    fechaNac: ""  
+    fechaNac: ""
   }
 
   fmrParticipante: FormGroup = this.formBuilder.group({
     idParticipante: [0],
     nombreP: ['', [Validators.required]],
     identificacionP: ['', [Validators.required]],
-    correoP: ['', [Validators.required]],
+    correoP: ['', [Validators.required, Validators.email]],
     direccionP: ['', [Validators.required]],
     paisP: ['', [Validators.required]],
     ciudadP: ['', [Validators.required]],
@@ -60,16 +63,18 @@ export class ParticipanteComponent implements OnInit {
     contactoL: ['', [Validators.required]],
     parentescoL: ['', [Validators.required]],
     estadoP: [1],
-    idCurso: [0]
-    
+
+
   });
 
   tipoParticipante = 0;
-  constructor(private router: ActivatedRoute, private conexion: ApiService, private spinner: NgxSpinnerService,private formBuilder: FormBuilder) { }
+  lstInputsCapacitaciones: any = [];
+
+  constructor(private router: ActivatedRoute, private conexion: ApiService, private spinner: NgxSpinnerService, private formBuilder: FormBuilder, public generico: GenericoService) { }
 
   ngOnInit(): void {
     this.idParticipante = parseInt(this.router.snapshot.params.id);
- /*    this.listarParticipante(); */
+    /*    this.listarParticipante(); */
   }
 
   listarParticipante() {
@@ -78,7 +83,7 @@ export class ParticipanteComponent implements OnInit {
       (res: any) => {
         this.spinner.hide();
         this.participante = res.resultado;
-        console.log('participante',this.participante)
+        console.log('participante', this.participante)
       }, err => {
         this.spinner.hide();
         console.log(err)
@@ -92,7 +97,7 @@ export class ParticipanteComponent implements OnInit {
       (res: any) => {
         this.spinner.hide();
         this.participante = res.resultado;
-        console.log('archivo',this.archivo)
+        console.log('archivo', this.archivo)
       }, err => {
         this.spinner.hide();
         console.log(err)
@@ -107,7 +112,7 @@ export class ParticipanteComponent implements OnInit {
         "panel02": false,
         "panel03": false,
         "panel04": false,
-       
+
       }
     }
     else if (panel == 2) {
@@ -136,77 +141,127 @@ export class ParticipanteComponent implements OnInit {
     }
   }
 
+  public agregarInputCapacitacion() {
+
+    this.lstInputsCapacitaciones.push({ id: this.lstInputsCapacitaciones.length++ });
+  }
+
 
   /* Guardar participante */
   public guardarParticipante(valor: any) {
 
     this.tipoParticipante = valor;
-    this.fmrParticipante.controls['idCurso'].setValue(this.idParticipante);
+
     var formulario = this.fmrParticipante.value;
-    if (this.fmrParticipante.valid) {
-      var datos = {
-        identificador: this.tipoParticipante,
-        idParticipante: formulario.idParticipante,
-        nombreP: formulario.nombreP,
-        identificacionP: formulario.identificacionP,
-        correoP: formulario.correoP,
-        direccionP: formulario.direccionP,
-        paisP: formulario.paisP,
-        ciudadP: formulario.ciudadP,
-        provinciaP: formulario.provinciaP,
-        estadoCivilP: formulario.estadoCivilP,
-        fechaNac: formulario.fechaNac,
-        nombreRefeP: formulario.nombreRefeP,
-        correoRefeP: formulario.correoRefeP,
-        contactoP: formulario.contactoP,
-        parentescoP: formulario.parentescoP,
-        nombreRefeL: formulario.nombreRefeL,
-        correoRefeL: formulario.correoRefeL,
-        contactoL: formulario.contactoL,
-        parentescoL: formulario.parentescoL,
-        estadoP: this.tipoParticipante == 1 ? 1 : this.tipoParticipante == 4 ? 2 : 0,
-        idCurso: formulario.idCurso
-      }
-      this.spinner.show();
-      this.conexion.post("gestionParticipante",'',datos).subscribe(
-        (res: any) => {
-          this.spinner.hide();
-          console.log(res);
-        }, err => {
-          this.spinner.hide();
-          console.log(err)
+
+    console.log("FORMULARIO", this.fmrParticipante);
+
+    /* if (formulario.nombreP == "") {
+      this.alerta('Ingresar un Nombre');
+    } else if (formulario.identificacionP == "") {
+      this.alerta('Ingresar una Identificación');
+    } else if (!this.validateEmail(formulario.correoP)) {
+      this.alerta('Ingresar una email válido');
+    } else if (formulario.direccionP == "") {
+      this.alerta('Ingresar una Direción');
+    } else if (formulario.paisP == "") {
+      this.alerta('Ingresar un País');
+    } else if (formulario.ciudadP == "") {
+      this.alerta('Ingresar una Ciudad');
+    } else if (formulario.provinciaP == "") {
+      this.alerta('Ingresar una Provincia');
+    } else if (formulario.estadoCivilP == "") {
+      this.alerta('Seleccione su Estado Civil');
+    } else if (formulario.fechaNac == "") {
+      this.alerta('Ingresar su fecha de Nacimiento');
+    } else if (formulario.nombreRefeP == "") {
+      this.alerta('Ingresar nombre de Referencia Personal');
+    } else if (!this.validateEmail(formulario.correoRefeP)) {
+      this.alerta('Ingresar una email válido');
+    } else if (formulario.contactoP == "") {
+      this.alerta('Ingresar el número de contacto de su Referencia Personal');
+    } else if (formulario.parentescoP == "") {
+      this.alerta('Ingresar el tipo de Referencia Parentesco');
+    } else if (formulario.nombreRefeL == "") {
+      this.alerta('Ingresar nombre de Referencia Laboral');
+    } else if (!this.validateEmail(formulario.correoRefeL)) {
+      this.alerta('Ingresar una email válido');
+    } else if (formulario.contactoL == "") {
+      this.alerta('Ingresar el número de contacto de su Referencia Laboral');
+    } else if (formulario.parentescoL == "") {
+      this.alerta('Ingresar el tipo de Referencia Parentesco');
+    } else {
+      if (this.fmrParticipante.valid) {
+        var datos = {
+          identificador: this.tipoParticipante,
+          idParticipante: formulario.idParticipante,
+          nombreP: formulario.nombreP,
+          identificacionP: formulario.identificacionP,
+          correoP: formulario.correoP,
+          direccionP: formulario.direccionP,
+          paisP: formulario.paisP,
+          ciudadP: formulario.ciudadP,
+          provinciaP: formulario.provinciaP,
+          estadoCivilP: formulario.estadoCivilP,
+          fechaNac: formulario.fechaNac,
+          nombreRefeP: formulario.nombreRefeP,
+          correoRefeP: formulario.correoRefeP,
+          contactoP: formulario.contactoP,
+          parentescoP: formulario.parentescoP,
+          nombreRefeL: formulario.nombreRefeL,
+          correoRefeL: formulario.correoRefeL,
+          contactoL: formulario.contactoL,
+          parentescoL: formulario.parentescoL,
+          estadoP: this.tipoParticipante == 1 ? 1 : this.tipoParticipante == 4 ? 2 : 0
         }
-      );
+        this.spinner.show();
+        this.conexion.post("gestionParticipante", '', datos).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            console.log(res);
+          }, err => {
+            this.spinner.hide();
+            console.log(err)
+          }
+        );
 
-    } /* else {
-      Swal.fire({
-        position: 'top',
-        icon: 'error',
-        title: 'Llene todos los campos',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      } else {
+        this.alerta('Todos los campos son requeridos');
+      }
     } */
-
   }
 
-  public validarInformacion(step:any){
-    if(step == 2){
-/* 
-      Swal.fire({
-        position: 'top',
-        icon: 'error',
-        title: 'Llene todos los campos',
-        showConfirmButton: false,
-        timer: 1500
-      }) */
+  public alerta(mensaje: any) {
+    Swal.fire({
+      position: 'top',
+      icon: 'warning',
+      title: mensaje,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
+  public validateEmail(email: any) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  public validarInformacion(step: any) {
+    if (step == 2) {
+      /* 
+            Swal.fire({
+              position: 'top',
+              icon: 'error',
+              title: 'Llene todos los campos',
+              showConfirmButton: false,
+              timer: 1500
+            }) */
       console.log('Usuario', this.fmrParticipante);
       this.manageDashboards(step);
-     
-    }else if(step == 3){
+
+    } else if (step == 3) {
       console.log('Usuario', this.fmrParticipante);
       this.manageDashboards(step);
     }
-    
+
   }
 }

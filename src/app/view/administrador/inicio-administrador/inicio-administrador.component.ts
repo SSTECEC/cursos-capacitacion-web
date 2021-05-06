@@ -105,6 +105,10 @@ export class InicioAdministradorComponent implements OnInit {
   tipoInstituto = 0;
   tipoParticipante = 0;
   tipoPostulacion = 0;
+
+  datosPostulacionParticipante: any;
+  datosPostulacionArchivos: any;
+  
   constructor(private conexion: ApiService, private spinner: NgxSpinnerService, private ruta: Router, private formBuilder: FormBuilder, private sesion: SesionService) {
 
   }
@@ -251,57 +255,106 @@ export class InicioAdministradorComponent implements OnInit {
   public abrirModalCursos(tipo: number, datos: any) {
     this.tipoCurso = tipo;
     this.imagenCargada = "";
+
+    this.formularioCurso.reset();
+    $('#summernote').summernote('code', "");
     $('#exampleModal').modal('show');
     if (tipo == 2) {
       this.formularioCurso.controls['idCursos'].setValue(datos.idCursos);
+      this.formularioCurso.controls['nombre'].setValue(datos.nombre);
+      this.formularioCurso.controls['descripcion_corta'].setValue(datos.descripcion_corta);
+      this.formularioCurso.controls['descripcion_larga'].setValue(datos.descripcion_larga);
+      $('#summernote').summernote('code', datos.descripcion_larga);
+      this.formularioCurso.controls['icono'].setValue(datos.icono);
+      this.formularioCurso.controls['idInstituto'].setValue(datos.idInstituto);
+      this.imagenCargada = datos.imagen;
     }
     console.log(datos);
-    console.log(datos)
   }
 
   public guardarCurso(event: any) {
 
     this.formularioCurso.controls['descripcion_larga'].setValue($('#summernote').summernote('code'));
     var formulario = this.formularioCurso.value;
-    if (this.formularioCurso.valid) {
-      var datos = {
-        identificador: this.tipoCurso,
-        idCursos: formulario.idCursos,
-        nombre: formulario.nombre,
-        descripcion_larga: formulario.descripcion_larga,
-        descripcion_corta: formulario.descripcion_corta,
-        icono: formulario.icono,
-        imagen: this.imagenCargada,
-        estado: this.tipoCurso == 1 ? 1 : this.tipoCurso == 4 ? 2 : 0,
-        idInstituto: formulario.idInstituto
-      }
-      this.spinner.show();
-      this.conexion.post("gestionCursos", "", datos).subscribe(
-        (res: any) => {
-          this.spinner.hide();
-          this.listarCursos();
-          Swal.fire({
-            position: 'top',
-            icon: 'success',
-            title: 'Curso Guardado',
-            showConfirmButton: false,
-            timer: 3000
-          })
-        }, err => {
-          this.spinner.hide();
-          console.log(err)
-        }
-      );
 
-    } else {
-      Swal.fire({
-        position: 'top',
-        icon: 'error',
-        title: 'Llene todos los campos',
-        showConfirmButton: false,
-        timer: 1500
-      })
+    if(this.tipoCurso == 2){
+      if(formulario.nombre == ""){
+        Swal.fire({ position: 'top', icon: 'error', title: 'Ingresar Nombre', showConfirmButton: false, timer: 1500 });
+      }else if(formulario.descripcion_corta == ""){
+        Swal.fire({ position: 'top', icon: 'error', title: 'Ingresar descripción', showConfirmButton: false, timer: 1500 });
+      }else if(formulario.descripcion_larga == ""){
+        Swal.fire({ position: 'top', icon: 'error', title: 'Ingresar descripción completa', showConfirmButton: false, timer: 1500 });
+      }else if(formulario.icono == ""){
+        Swal.fire({ position: 'top', icon: 'error', title: 'Seleccionar un icono', showConfirmButton: false, timer: 1500 });
+      }else{
+        var datos = {
+          identificador: this.tipoCurso,
+          idCursos: formulario.idCursos,
+          nombre: formulario.nombre,
+          descripcion_larga: formulario.descripcion_larga,
+          descripcion_corta: formulario.descripcion_corta,
+          icono: formulario.icono,
+          imagen: this.imagenCargada,
+          estado: 0,
+          idInstituto: formulario.idInstituto
+        }
+        this.spinner.show();
+        this.conexion.post("gestionCursos", "", datos).subscribe(
+          (res: any) => {
+            $('#exampleModal').modal('toggle');
+            this.spinner.hide();
+            this.listarCursos();
+            Swal.fire({
+              position: 'top',
+              icon: 'success',
+              title: 'Curso Guardado',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }, err => {
+            this.spinner.hide();
+            console.log(err)
+          }
+        );
+      }
+    }else{
+      if (this.formularioCurso.valid) {
+        var datos = {
+          identificador: this.tipoCurso,
+          idCursos: formulario.idCursos,
+          nombre: formulario.nombre,
+          descripcion_larga: formulario.descripcion_larga,
+          descripcion_corta: formulario.descripcion_corta,
+          icono: formulario.icono,
+          imagen: this.imagenCargada,
+          estado: this.tipoCurso == 1 ? 1 : this.tipoCurso == 4 ? 2 : 0,
+          idInstituto: formulario.idInstituto
+        }
+        this.spinner.show();
+        this.conexion.post("gestionCursos", "", datos).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            $('#exampleModal').modal('toggle');
+            this.listarCursos();
+            Swal.fire({
+              position: 'top',
+              icon: 'success',
+              title: 'Curso Guardado',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }, err => {
+            this.spinner.hide();
+            console.log(err)
+          }
+        );
+  
+      } else {
+        Swal.fire({ position: 'top', icon: 'error', title: 'Llene todos los campos', showConfirmButton: false, timer: 1500 });
+      }
     }
+
+    
 
   }
 
@@ -348,7 +401,7 @@ export class InicioAdministradorComponent implements OnInit {
 
 
   /* modal curso imagen */
-  public abrirModalImagenCurso(tipo: number, datos: any) {
+  /* public abrirModalImagenCurso(tipo: number, datos: any) {
     this.tipoCurso = tipo;
     this.imagenCargada = "";
     $('#ejemlomodaImagenCurso').modal('show');
@@ -360,7 +413,7 @@ export class InicioAdministradorComponent implements OnInit {
     }
     console.log(datos);
     console.log(datos)
-  }
+  } */
 
 
   /*CRUD INSTITUTO*/
@@ -371,51 +424,95 @@ export class InicioAdministradorComponent implements OnInit {
     $('#ejemlomodal').modal('show');
     if (tipo == 2) {
       this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
+      this.formularioInstituto.controls['nombre'].setValue(datos.nombre);
+      this.formularioInstituto.controls['imagen'].setValue(datos.imagen);
+      this.imagenCargada = datos.imagen;
     }
     console.log(datos);
-    console.log(datos)
   }
 
   public guardarInstituto(event: any) {
     console.log(this.formularioInstituto);
 
     var formulario = this.formularioInstituto.value;
-    if (this.formularioInstituto.valid) {
-      var datos = {
-        identificador: this.tipoInstituto,
-        idInstituto: formulario.idInstituto,
-        nombre: formulario.nombre,
-        imagen: this.imagenCargada,
-        estado: this.tipoInstituto == 1 ? 1 : this.tipoInstituto == 4 ? 2 : 0,
 
-      }
-      this.spinner.show();
-      this.conexion.post("gestionInstituto", "", datos).subscribe(
-        (res: any) => {
-          this.spinner.hide();
-          Swal.fire({
-            position: 'top',
-            icon: 'success',
-            title: 'Instituto Guardado',
-            showConfirmButton: false,
-            timer: 3000
-          })
-          this.listarInstitutos();
-        }, err => {
-          this.spinner.hide();
-          console.log(err)
+    if(this.tipoInstituto == 2){
+      if(formulario.nombre == ""){
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Ingresar el nombre',
+          showConfirmButton: false,
+          timer: 4000
+        })
+      }else{
+        var datos = {
+          identificador: this.tipoInstituto,
+          idInstituto: formulario.idInstituto,
+          nombre: formulario.nombre,
+          imagen: this.imagenCargada,
+          estado: 0,
+          
         }
-      );
-
-    } else {
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Llene todos los campos',
-        showConfirmButton: false,
-        timer: 4000
-      })
+        this.spinner.show();
+        this.conexion.post("gestionInstituto", "", datos).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            Swal.fire({
+              position: 'top',
+              icon: 'success',
+              title: 'Instituto Guardado',
+              showConfirmButton: false,
+              timer: 3000
+            })
+            $('#ejemlomodal').modal('toggle');
+            this.listarInstitutos();
+          }, err => {
+            this.spinner.hide();
+            console.log(err)
+          }
+        );
+      }
+    }else{
+      if (this.formularioInstituto.valid) {
+        var datos = {
+          identificador: this.tipoInstituto,
+          idInstituto: formulario.idInstituto,
+          nombre: formulario.nombre,
+          imagen: this.imagenCargada,
+          estado: this.tipoInstituto == 1 ? 1 : this.tipoInstituto == 4 ? 2 : 0,
+  
+        }
+        this.spinner.show();
+        this.conexion.post("gestionInstituto", "", datos).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            Swal.fire({
+              position: 'top',
+              icon: 'success',
+              title: 'Instituto Guardado',
+              showConfirmButton: false,
+              timer: 3000
+            })
+            $('#ejemlomodal').modal('toggle');
+            this.listarInstitutos();
+          }, err => {
+            this.spinner.hide();
+            console.log(err)
+          }
+        );
+  
+      } else {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Llene todos los campos',
+          showConfirmButton: false,
+          timer: 4000
+        })
+      }
     }
+    
   }
 
   public eliminarInstituto(institutoSelecionado: any) {
@@ -454,10 +551,10 @@ export class InicioAdministradorComponent implements OnInit {
 
 
   /* modal Instituto imagen */
-  public abrirModalImagenInstituto(tipo: number, datos: any) {
+ /*  public abrirModalImagenInstituto(tipo: number, datos: any) {
     this.tipoCurso = tipo;
     this.imagenCargada = "";
-    $('#ejemlomodaImagenCurso').modal('show');
+    $('#ejemlomodaImagenInstituto').modal('show');
     if (tipo == 2) {
       this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
     }
@@ -466,7 +563,7 @@ export class InicioAdministradorComponent implements OnInit {
     }
     console.log(datos);
     console.log(datos)
-  }
+  } */
 
   /* imagen base 64 */
   public getImage(name: any) {
@@ -630,6 +727,36 @@ export class InicioAdministradorComponent implements OnInit {
       }
     })
   }
+
+
+/* ABRIR MODAL VERIFICAR POSTULANTES */
+public abrirModalVerificarPostulante(tipo: number, datos: any) {
+  this.tipoParticipante = tipo;
+  console.log(datos)
+  
+  this.cargarDatosPostulacionParticipante(datos.idPostulacion);
+
+  $('#verificarParticipante').modal('show');
+ 
+}
+
+public cargarDatosPostulacionParticipante(id: any){
+  this.spinner.show();
+  this.conexion.get("listarPostulacionDetalle?idPostulacion="+id, "").subscribe(
+    (res: any) => {
+      
+      this.spinner.hide();
+      this.datosPostulacionParticipante = res.resultado;
+      console.log(this.datosPostulacionParticipante);
+    }, err => {
+      this.spinner.hide();
+      console.log(err)
+    }
+  );
+}
+
+
+
 
   /* cerrar sesion */
   public cerrarSesion() {

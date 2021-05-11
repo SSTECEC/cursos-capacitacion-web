@@ -19,28 +19,28 @@
           </a>
         </li>
 
-        <li class="active">
+        <li>
           <a (click)="manageDashboards(2)">
             <i class="nc-icon nc-bank"></i>
             <p>Instituto</p>
           </a>
         </li>
 
-        <li class="active">
+        <li>
           <a (click)="manageDashboards(3)">
             <i class="nc-icon nc-single-02"></i>
             <p>Usuarios</p>
           </a>
         </li>
 
-        <li class="active">
+        <li>
           <a (click)="manageDashboards(4)">
             <i class="nc-icon nc-circle-10"></i>
             <p>Solicitudes</p>
           </a>
         </li>
 
-        <li class="active">
+        <li>
           <a (click)="manageDashboards(5)">
             <i class="nc-icon nc-single-copy-04"></i>
             <p>Solicitudes por aceptar</p>
@@ -56,12 +56,6 @@
     <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
       <div class="container-fluid">
         <div class="navbar-wrapper">
-          <input type="text" value="" class="form-control" placeholder="Buscar...">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <i class="nc-icon nc-zoom-split"></i>
-            </div>
-          </div>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
           <form>
@@ -222,19 +216,16 @@
               <thead>
                 <tr>
                   <th>N°</th>
-                  <th>Nombre</th>
-                  <th>Ver solicitud</th>
+                  <th>Nombre de la Certificación</th>
+                  <th>Nombre del Participante</th>
                   <th></th>
-
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <!-- <strong>{{i+1}}</strong> -->
-                  </td>
-                  <td></td>
-                  <td></td>
+                <tr *ngFor="let postulacion of lstPostulacionAprobadas; let i = index">
+                  <td><strong>{{i+1}}</strong></td>
+                  <td>{{ postulacion.nombre_curso }} </td>
+                  <td>{{ postulacion.nombre_participante }}</td>
                   <button style="align-items: center;" class="btn btn-danger">
                     <i class="far fa-trash-alt"></i>
                   </button>
@@ -277,11 +268,10 @@
                     </button>
                   </td>
                   <td>
-                    <button style="align-items: center;" class="btn btn-info">
+                    <button style="align-items: center;" class="btn btn-info" (click)="aceptarPostulacion(postulacion)">
                       <i class="fas fa-check"></i>
                     </button>
-                    <button style="align-items: center;" class="btn btn-danger"
-                      (click)="eliminarPostulacion(postulacion)">
+                    <button style="align-items: center;" class="btn btn-danger" (click)="eliminarPostulacion(postulacion)">
                       <i class="far fa-trash-alt"></i></button>
                   </td>
                 </tr>

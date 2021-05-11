@@ -99,6 +99,8 @@ export class InicioAdministradorComponent implements OnInit {
   lstParticipante: Participante[] = [];
   /* listar lstParticipante */
   lstPostulacion: Postulacion[] = [];
+  /* listar lstParticipante */
+  lstPostulacionAprobadas: Postulacion[] = [];
 
 
   tipoCurso = 0;
@@ -108,7 +110,7 @@ export class InicioAdministradorComponent implements OnInit {
 
   datosPostulacionParticipante: any;
   datosPostulacionArchivos: any;
-  
+
   constructor(private conexion: ApiService, private spinner: NgxSpinnerService, private ruta: Router, private formBuilder: FormBuilder, private sesion: SesionService) {
 
   }
@@ -189,6 +191,21 @@ export class InicioAdministradorComponent implements OnInit {
     );
   }
 
+  listarPostulacionAprobadas() {
+    this.spinner.show();
+    this.conexion.get("listarPostulaciones?estado=2", "").subscribe(
+      (res: any) => {
+
+        this.lstPostulacionAprobadas = res.resultado;
+        this.spinner.hide();
+        console.log(this.lstPostulacionAprobadas);
+      }, err => {
+        this.spinner.hide();
+        console.log(err)
+      }
+    );
+  }
+
 
   prue(param: any) {
     return JSON.stringify(param);
@@ -237,6 +254,7 @@ export class InicioAdministradorComponent implements OnInit {
         "panel04": true,
         "panel05": false,
       }
+      this.listarPostulacionAprobadas();
     }
     else if (panel == 5) {
       this.view = {
@@ -277,16 +295,16 @@ export class InicioAdministradorComponent implements OnInit {
     this.formularioCurso.controls['descripcion_larga'].setValue($('#summernote').summernote('code'));
     var formulario = this.formularioCurso.value;
 
-    if(this.tipoCurso == 2){
-      if(formulario.nombre == ""){
+    if (this.tipoCurso == 2) {
+      if (formulario.nombre == "") {
         Swal.fire({ position: 'top', icon: 'error', title: 'Ingresar Nombre', showConfirmButton: false, timer: 1500 });
-      }else if(formulario.descripcion_corta == ""){
+      } else if (formulario.descripcion_corta == "") {
         Swal.fire({ position: 'top', icon: 'error', title: 'Ingresar descripción', showConfirmButton: false, timer: 1500 });
-      }else if(formulario.descripcion_larga == ""){
+      } else if (formulario.descripcion_larga == "") {
         Swal.fire({ position: 'top', icon: 'error', title: 'Ingresar descripción completa', showConfirmButton: false, timer: 1500 });
-      }else if(formulario.icono == ""){
+      } else if (formulario.icono == "") {
         Swal.fire({ position: 'top', icon: 'error', title: 'Seleccionar un icono', showConfirmButton: false, timer: 1500 });
-      }else{
+      } else {
         var datos = {
           identificador: this.tipoCurso,
           idCursos: formulario.idCursos,
@@ -317,7 +335,7 @@ export class InicioAdministradorComponent implements OnInit {
           }
         );
       }
-    }else{
+    } else {
       if (this.formularioCurso.valid) {
         var datos = {
           identificador: this.tipoCurso,
@@ -348,13 +366,13 @@ export class InicioAdministradorComponent implements OnInit {
             console.log(err)
           }
         );
-  
+
       } else {
         Swal.fire({ position: 'top', icon: 'error', title: 'Llene todos los campos', showConfirmButton: false, timer: 1500 });
       }
     }
 
-    
+
 
   }
 
@@ -402,17 +420,17 @@ export class InicioAdministradorComponent implements OnInit {
 
   /* modal curso imagen */
   /* public abrirModalImagenCurso(tipo: number, datos: any) {
-    this.tipoCurso = tipo;
-    this.imagenCargada = "";
-    $('#ejemlomodaImagenCurso').modal('show');
-    if (tipo == 2) {
-      this.formularioCurso.controls['idCursos'].setValue(datos.idCursos);
-    }
-    if (tipo == 4) {
-      this.formularioCurso.controls['idCursos'].setValue(datos.idCUrsos);
-    }
-    console.log(datos);
-    console.log(datos)
+  this.tipoCurso = tipo;
+  this.imagenCargada = "";
+  $('#ejemlomodaImagenCurso').modal('show');
+  if (tipo == 2) {
+  this.formularioCurso.controls['idCursos'].setValue(datos.idCursos);
+  }
+  if (tipo == 4) {
+  this.formularioCurso.controls['idCursos'].setValue(datos.idCUrsos);
+  }
+  console.log(datos);
+  console.log(datos)
   } */
 
 
@@ -436,8 +454,8 @@ export class InicioAdministradorComponent implements OnInit {
 
     var formulario = this.formularioInstituto.value;
 
-    if(this.tipoInstituto == 2){
-      if(formulario.nombre == ""){
+    if (this.tipoInstituto == 2) {
+      if (formulario.nombre == "") {
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -445,14 +463,14 @@ export class InicioAdministradorComponent implements OnInit {
           showConfirmButton: false,
           timer: 4000
         })
-      }else{
+      } else {
         var datos = {
           identificador: this.tipoInstituto,
           idInstituto: formulario.idInstituto,
           nombre: formulario.nombre,
           imagen: this.imagenCargada,
           estado: 0,
-          
+
         }
         this.spinner.show();
         this.conexion.post("gestionInstituto", "", datos).subscribe(
@@ -473,7 +491,7 @@ export class InicioAdministradorComponent implements OnInit {
           }
         );
       }
-    }else{
+    } else {
       if (this.formularioInstituto.valid) {
         var datos = {
           identificador: this.tipoInstituto,
@@ -481,7 +499,7 @@ export class InicioAdministradorComponent implements OnInit {
           nombre: formulario.nombre,
           imagen: this.imagenCargada,
           estado: this.tipoInstituto == 1 ? 1 : this.tipoInstituto == 4 ? 2 : 0,
-  
+
         }
         this.spinner.show();
         this.conexion.post("gestionInstituto", "", datos).subscribe(
@@ -501,7 +519,7 @@ export class InicioAdministradorComponent implements OnInit {
             console.log(err)
           }
         );
-  
+
       } else {
         Swal.fire({
           position: 'center',
@@ -512,7 +530,7 @@ export class InicioAdministradorComponent implements OnInit {
         })
       }
     }
-    
+
   }
 
   public eliminarInstituto(institutoSelecionado: any) {
@@ -551,18 +569,18 @@ export class InicioAdministradorComponent implements OnInit {
 
 
   /* modal Instituto imagen */
- /*  public abrirModalImagenInstituto(tipo: number, datos: any) {
-    this.tipoCurso = tipo;
-    this.imagenCargada = "";
-    $('#ejemlomodaImagenInstituto').modal('show');
-    if (tipo == 2) {
-      this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
-    }
-    if (tipo == 4) {
-      this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
-    }
-    console.log(datos);
-    console.log(datos)
+  /*  public abrirModalImagenInstituto(tipo: number, datos: any) {
+  this.tipoCurso = tipo;
+  this.imagenCargada = "";
+  $('#ejemlomodaImagenInstituto').modal('show');
+  if (tipo == 2) {
+  this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
+  }
+  if (tipo == 4) {
+  this.formularioInstituto.controls['idInstituto'].setValue(datos.idInstituto);
+  }
+  console.log(datos);
+  console.log(datos)
   } */
 
   /* imagen base 64 */
@@ -729,34 +747,59 @@ export class InicioAdministradorComponent implements OnInit {
   }
 
 
-/* ABRIR MODAL VERIFICAR POSTULANTES */
-public abrirModalVerificarPostulante(tipo: number, datos: any) {
-  this.tipoParticipante = tipo;
-  console.log(datos)
-  
-  this.cargarDatosPostulacionParticipante(datos.idPostulacion);
+  /* ABRIR MODAL VERIFICAR POSTULANTES */
+  public abrirModalVerificarPostulante(tipo: number, datos: any) {
+    this.tipoParticipante = tipo;
+    console.log(datos)
 
-  $('#verificarParticipante').modal('show');
- 
-}
+    this.cargarDatosPostulacionParticipante(datos.idPostulacion);
 
-public cargarDatosPostulacionParticipante(id: any){
-  this.spinner.show();
-  this.conexion.get("listarPostulacionDetalle?idPostulacion="+id, "").subscribe(
-    (res: any) => {
-      
-      this.spinner.hide();
-      this.datosPostulacionParticipante = res.resultado;
-      console.log(this.datosPostulacionParticipante);
-    }, err => {
-      this.spinner.hide();
-      console.log(err)
+    $('#verificarParticipante').modal('show');
+
+  }
+
+  public cargarDatosPostulacionParticipante(id: any) {
+    this.spinner.show();
+    this.conexion.get("listarPostulacionDetalle?idPostulacion=" + id, "").subscribe(
+      (res: any) => {
+
+        this.spinner.hide();
+        this.datosPostulacionParticipante = res.resultado;
+        console.log(this.datosPostulacionParticipante);
+      }, err => {
+        this.spinner.hide();
+        console.log(err)
+      }
+    );
+  }
+
+
+  public aceptarPostulacion(postulacionSeleccionada: any) {
+    var datos = {
+      identificador : 1,
+      idPostulacion : postulacionSeleccionada.idPostulacion,
+      estado : 2,
     }
-  );
-}
 
-
-
+    this.spinner.show();
+    this.conexion.post("gestionPostulacion", "", datos).subscribe(
+      (res: any) => {
+        this.spinner.hide();
+        console.log(res);
+        Swal.fire({
+          position: 'top',
+          icon: 'success',
+          title: 'Postulación Aprobada',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        this.listarPostulacionAprobadas();
+      }, err => {
+        this.spinner.hide();
+        console.log(err)
+      }
+    );
+  }
 
   /* cerrar sesion */
   public cerrarSesion() {

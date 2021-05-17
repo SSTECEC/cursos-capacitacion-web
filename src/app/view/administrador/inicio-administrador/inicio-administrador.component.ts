@@ -102,6 +102,7 @@ export class InicioAdministradorComponent implements OnInit {
   /* listar lstParticipante */
   lstPostulacionAprobadas: Postulacion[] = [];
 
+  lstArchivosParticipante = [];
 
   tipoCurso = 0;
   tipoInstituto = 0;
@@ -206,6 +207,22 @@ export class InicioAdministradorComponent implements OnInit {
     );
   }
 
+  abrirModalVerificarPostulanteArchivo(id: any) {
+    console.log(id);
+    $("#archivosSolicitud").modal("toggle");
+
+    this.spinner.show();
+    this.conexion.get("listarArchivosPostulaciones?idParticipante=" + id, "").subscribe(
+      (res: any) => {
+        this.spinner.hide();
+        this.lstArchivosParticipante = res;
+        console.log(res);
+      }, err => {
+        this.spinner.hide();
+        console.log(err)
+      }
+    );
+  }
 
   prue(param: any) {
     return JSON.stringify(param);
@@ -776,9 +793,9 @@ export class InicioAdministradorComponent implements OnInit {
 
   public aceptarPostulacion(postulacionSeleccionada: any) {
     var datos = {
-      identificador : 1,
-      idPostulacion : postulacionSeleccionada.idPostulacion,
-      estado : 2,
+      identificador: 1,
+      idPostulacion: postulacionSeleccionada.idPostulacion,
+      estado: 2,
     }
 
     this.spinner.show();

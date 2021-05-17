@@ -226,7 +226,8 @@
                   <td><strong>{{i+1}}</strong></td>
                   <td>{{ postulacion.nombre_curso }} </td>
                   <td>{{ postulacion.nombre_participante }}</td>
-                  <button style="align-items: center;" class="btn btn-danger" (click)="eliminarPostulacion(postulacion)">
+                  <button style="align-items: center;" class="btn btn-danger"
+                    (click)="eliminarPostulacion(postulacion)">
                     <i class="far fa-trash-alt"></i></button>
                 </tr>
               </tbody>
@@ -262,7 +263,8 @@
                       (click)="abrirModalVerificarPostulante(1, postulacion)">
                       <i class="fa fa-file"></i>
                     </button>
-                    <button style="align-items: center;" class="btn btn-primary">
+                    <button style="align-items: center;" class="btn btn-primary"
+                      (click)="abrirModalVerificarPostulanteArchivo(postulacion.idParticipante)">
                       <i class="fas fa-file-archive"></i>
                     </button>
                   </td>
@@ -270,7 +272,8 @@
                     <button style="align-items: center;" class="btn btn-info" (click)="aceptarPostulacion(postulacion)">
                       <i class="fas fa-check"></i>
                     </button>
-                    <button style="align-items: center;" class="btn btn-danger" (click)="eliminarPostulacion(postulacion)">
+                    <button style="align-items: center;" class="btn btn-danger"
+                      (click)="eliminarPostulacion(postulacion)">
                       <i class="far fa-trash-alt"></i></button>
                   </td>
                 </tr>
@@ -440,7 +443,8 @@
           <label *ngIf="tipoInstituto != 2" for="file-upload" class="custom-file-upload">
             <i class="fa fa-cloud-upload"></i> Logo del Insituto
           </label>
-          <input *ngIf="tipoInstituto != 2" formControlName="imagen" id="file-instituto" type="file" (change)="getImage('file-instituto')" />
+          <input *ngIf="tipoInstituto != 2" formControlName="imagen" id="file-instituto" type="file"
+            (change)="getImage('file-instituto')" />
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
@@ -593,6 +597,23 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Solicitud Archivos-->
+<div class="modal fade bd-example-modal-lg" id="archivosSolicitud" tabindex="-1" role="dialog"
+  aria-labelledby="archivosSolicitud" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="padding: 25px;">
+
+      <h5 class="modal-title">Archivos Participante</h5>
+      <br>
+      <div>
+
+        Pancha
+
       </div>
     </div>
   </div>

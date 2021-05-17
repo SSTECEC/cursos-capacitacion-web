@@ -183,38 +183,23 @@
               </div>
 
               <br><br>
-              <div class="form-row">
+              <div class="row">
 
-                <div class="row">
-                  <div class="col-md-10">
-                    <label>
-                      <h3>Archivos de capacitaciones obtenidos</h3>
-                    </label>
-                  </div>
-                  <div class="col-md-2">
-                    <button class="btn " (click)="agregarInputCapacitacion() ">
-                      +
-                    </button>
-                  </div>
+                <div class="col-md-12">
+                  <b>Títulos</b><br>
+                  <input type="file" id="files-titulos" class="form-control" (change)="archivosTitulos('files-titulos')" multiple>
                 </div>
-                <div class="form-group col-md-6" *ngFor="let capa of lstInputsCapacitaciones">
-                  <label for="file-upload" class="custom-file-upload">
-                    <i class="fa fa-cloud-upload"></i> Subir archivo
-                  </label>
-                  <input id="{{ capa.id }}" type="file" />
+                <div class="col-md-12">
+                  <br>
                 </div>
+                <div class="col-md-12">
+                  <b>Capacitaciones / Certificados</b><br>
+                  <input type="file" id="files-cert" class="form-control" (change)="archivosCapacitaciones('files-cert')" multiple>
+                </div>
+
               </div>
-              <div class="form-row">
-                <label>
-                  <h3>Archivos de títulos obtenidos</h3>
-                </label>
-                <div class="form-group col-md-6">
-                  <label for="file-upload" class="custom-file-upload">
-                    <i class="fa fa-cloud-upload"></i> Subir archivo
-                  </label>
-                  <input id="file-upload" type="file" />
-                </div>
-              </div>
+
+
               <div class="form-group">
               </div>
               <div class="row w-100 align-items-center">
@@ -226,7 +211,7 @@
             </div>
 
           </form>
-
+          <button (click)="test()">test</button>
         </div>
       </div>
     </div>

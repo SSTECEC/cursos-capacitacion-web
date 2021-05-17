@@ -8,6 +8,7 @@ import { ApiService } from 'src/app/servicios/api/api.service';
 import Swal from 'sweetalert2';
 import { GenericoService } from 'src/app/servicios/metodo/generico.service';
 import { ArchivosPostulacion } from 'src/app/clases/ArchivosPostulacion';
+declare var $: any;
 
 @Component({
   selector: 'app-participante',
@@ -22,7 +23,9 @@ export class ParticipanteComponent implements OnInit {
   idArchivo = 0;
   archivo: Archivo = new Archivo('', 0, '', 0);
 
-
+  lstCapacitaciones: any = [];
+  lstTitulos: any = [];
+  lstArchivos: any = [];
 
   /* cambiar formulario */
   public view: any = {
@@ -156,7 +159,7 @@ export class ParticipanteComponent implements OnInit {
 
     console.log("FORMULARIO", this.fmrParticipante);
 
-    /* if (formulario.nombreP == "") {
+    if (formulario.nombreP == "") {
       this.alerta('Ingresar un Nombre');
     } else if (formulario.identificacionP == "") {
       this.alerta('Ingresar una Identificación');
@@ -190,6 +193,10 @@ export class ParticipanteComponent implements OnInit {
       this.alerta('Ingresar el número de contacto de su Referencia Laboral');
     } else if (formulario.parentescoL == "") {
       this.alerta('Ingresar el tipo de Referencia Parentesco');
+    } else if (this.lstTitulos.length == 0) {
+      this.alerta('Adjuntar almenos un titulo');
+    } else if (this.lstCapacitaciones.length == 0) {
+      this.alerta('Adjuntar almenos una capacitación');
     } else {
       if (this.fmrParticipante.valid) {
         var datos = {
@@ -212,13 +219,15 @@ export class ParticipanteComponent implements OnInit {
           correoRefeL: formulario.correoRefeL,
           contactoL: formulario.contactoL,
           parentescoL: formulario.parentescoL,
-          estadoP: this.tipoParticipante == 1 ? 1 : this.tipoParticipante == 4 ? 2 : 0
+          estadoP: this.tipoParticipante == 1 ? 1 : this.tipoParticipante == 4 ? 2 : 0,
+          idCurso: this.idParticipante
         }
         this.spinner.show();
         this.conexion.post("gestionParticipante", '', datos).subscribe(
           (res: any) => {
             this.spinner.hide();
             console.log(res);
+            this.guardarArchivos(res.resultado);
           }, err => {
             this.spinner.hide();
             console.log(err)
@@ -228,7 +237,88 @@ export class ParticipanteComponent implements OnInit {
       } else {
         this.alerta('Todos los campos son requeridos');
       }
-    } */
+    }
+  }
+
+  public guardarArchivos(idParticipante: any) {
+
+    for (let tit of this.lstTitulos) {
+      this.lstArchivos.push({ nombre: tit.nombre, imagen: tit.imagen, tipo: 'Titulo' });
+    }
+    for (let tit of this.lstCapacitaciones) {
+      this.lstArchivos.push({ nombre: tit.nombre, imagen: tit.imagen, tipo: 'Capacitacion' });
+    }
+
+    for (let archivo of this.lstArchivos) {
+      this.spinner.show();
+      this.conexion.post("gestionArchivo", '', {
+        identificador: 1,
+        idArchivo: 0,
+        nombre: archivo.nombre,
+        documento: archivo.imagen,
+        tipo: archivo.tipo,
+        idParticipante: idParticipante
+      }).subscribe(
+        (res: any) => {
+          this.spinner.hide();
+          console.log(res);
+        }, err => {
+          this.spinner.hide();
+          console.log(err)
+        }
+      );
+    }
+
+  }
+
+  public archivosTitulos(name: any) {
+    this.lstArchivos = [];
+    this.lstTitulos = [];
+    var _this = this;
+    var files = $("#" + name).prop("files");
+    for (var i = 0; i < files.length; i++) {
+      (function (file) {
+
+        var fileReader = new FileReader();
+        fileReader.onload = function (f: any) {
+          _this.lstTitulos.push({ nombre: file.name, imagen: f.target.result, tipo: 'Titulo' });
+        };
+
+        fileReader.readAsDataURL(file);
+
+      })(files[i]);
+    }
+  }
+
+  public archivosCapacitaciones(name: any) {
+    this.lstArchivos = [];
+    this.lstCapacitaciones = [];
+    var _this = this;
+    var files = $("#" + name).prop("files");
+    for (var i = 0; i < files.length; i++) {
+      (function (file) {
+
+        var fileReader = new FileReader();
+        fileReader.onload = function (f: any) {
+          _this.lstCapacitaciones.push({ nombre: file.name, imagen: f.target.result, tipo: 'Capacitacion' });
+        };
+
+        fileReader.readAsDataURL(file);
+
+      })(files[i]);
+    }
+  }
+
+  test() {
+    console.log(this.lstTitulos);
+    console.log(this.lstCapacitaciones);
+    for (let tit of this.lstTitulos) {
+      this.lstArchivos.push({ nombre: tit.nombre, imagen: tit.imagen, tipo: 'Titulo' });
+    }
+    for (let tit of this.lstCapacitaciones) {
+      this.lstArchivos.push({ nombre: tit.nombre, imagen: tit.imagen, tipo: 'Capacitacion' });
+    }
+    console.log(this.lstArchivos);
   }
 
   public alerta(mensaje: any) {

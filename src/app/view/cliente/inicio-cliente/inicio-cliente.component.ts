@@ -64,23 +64,26 @@ export class InicioClienteComponent implements OnInit {
     lstParticipante: Participante[] = [];
     tipoParticipante = 0;
 
+    public session : any = {"idParticipante":9,"nombreP":"marcelo calderon","identificacionP":"1721140885","correoP":"marcelo@gmail.com","direccionP":"villaflora","paisP":"ecuador","ciudadP":"quito","provinciaP":"pichincha","estadoCivilP":"Casad@","fechaNac":"1994-04-26","nombreRefeP":"pancho campo","correoRefeP":"panchito@gmail.com","contactoP":"987654321","parentescoP":"hermano","nombreRefeL":"marco vega","correoRefeL":"marquito@gmail.com","contactoL":"987654323","parentescoL":"secretaria","estadoP":"1","idRol":2};
 
-  constructor(private conexion: ApiService, private spinner: NgxSpinnerService, private sesion: SesionService, private formBuilder: FormBuilder) { }
+  constructor(private conexion: ApiService, private spinner: NgxSpinnerService, private sesionService: SesionService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-
-    this.sesion.verificarCredencialesRutas();
+    this.sesionService.verificarCredencialesRutas();
+    this.session = this.sesionService.obtenerDatos();
+    console.log('SESIONNNNN',this.session.idParticipante);
     this.listarCursos();
-    this.listarParticipante();
+    //
   }
 
   listarCursos() {
     this.spinner.show();
-    this.conexion.get("listarCursos", "").subscribe(
+    this.conexion.get("listarCursosParticipante?idParticipante=" + this.session.idParticipante, "").subscribe(
       (res: any) => {
-        this.lstCursos = res.resultado;
+        console.log(res);
+        this.lstCursos = res.resultado;  
         this.spinner.hide();
-        console.log(this.lstCursos);
+        this.listarParticipante();
       }, err => {
         this.spinner.hide();
         console.log(err) 
@@ -132,7 +135,7 @@ export class InicioClienteComponent implements OnInit {
 
     /* cerrar sesion */
     public cerrarSesion(){
-      this.sesion.cerrarSesion();
+      this.sesionService.cerrarSesion();
     }
 
 }

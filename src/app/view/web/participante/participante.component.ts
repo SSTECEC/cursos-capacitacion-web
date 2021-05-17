@@ -156,7 +156,7 @@ export class ParticipanteComponent implements OnInit {
 
     console.log("FORMULARIO", this.fmrParticipante);
 
-    /* if (formulario.nombreP == "") {
+    if (formulario.nombreP == "") {
       this.alerta('Ingresar un Nombre');
     } else if (formulario.identificacionP == "") {
       this.alerta('Ingresar una Identificación');
@@ -228,7 +228,7 @@ export class ParticipanteComponent implements OnInit {
       } else {
         this.alerta('Todos los campos son requeridos');
       }
-    } */
+    }
   }
 
   public alerta(mensaje: any) {

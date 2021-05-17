@@ -226,9 +226,8 @@
                   <td><strong>{{i+1}}</strong></td>
                   <td>{{ postulacion.nombre_curso }} </td>
                   <td>{{ postulacion.nombre_participante }}</td>
-                  <button style="align-items: center;" class="btn btn-danger">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
+                  <button style="align-items: center;" class="btn btn-danger" (click)="eliminarPostulacion(postulacion)">
+                    <i class="far fa-trash-alt"></i></button>
                 </tr>
               </tbody>
             </table>

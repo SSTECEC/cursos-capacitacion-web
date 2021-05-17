@@ -208,14 +208,27 @@
                 </div>
               </div>
               <div class="form-row">
-                <label>
-                  <h3>Archivos de títulos obtenidos</h3>
-                </label>
-                <div class="form-group col-md-6">
+
+                <div class="row">
+                  <div class="col-md-10">
+                    <label>
+                      <h3>Archivos de títulos obtenidos</h3>
+                    </label>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn " (click)="agregarInputCapacitacion() ">
+                      +
+                    </button>
+
+                    <br>
+                    Archivo Máximo 30kb
+                  </div>
+                </div>
+                <div class="form-group col-md-6" *ngFor="let capa of lstInputsCapacitaciones">
                   <label for="file-upload" class="custom-file-upload">
                     <i class="fa fa-cloud-upload"></i> Subir archivo
                   </label>
-                  <input id="file-upload" type="file" />
+                  <input id="{{ capa.id }}" type="file" />
                 </div>
               </div>
               <div class="form-group">

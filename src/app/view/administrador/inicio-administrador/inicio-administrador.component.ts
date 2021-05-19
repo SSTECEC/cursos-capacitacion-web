@@ -9,6 +9,7 @@ import { Postulacion } from 'src/app/clases/Postulacion';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { SesionService } from 'src/app/servicios/sesion/sesion.service';
+
 declare var $: any;
 
 @Component({
@@ -16,6 +17,7 @@ declare var $: any;
   templateUrl: './inicio-administrador.component.html',
   styleUrls: ['./inicio-administrador.component.css']
 })
+
 export class InicioAdministradorComponent implements OnInit {
 
 
@@ -102,7 +104,7 @@ export class InicioAdministradorComponent implements OnInit {
   /* listar lstParticipante */
   lstPostulacionAprobadas: Postulacion[] = [];
 
-  lstArchivosParticipante : any = [];
+  lstArchivosParticipante: any = [];
 
   tipoCurso = 0;
   tipoInstituto = 0;
@@ -228,19 +230,13 @@ export class InicioAdministradorComponent implements OnInit {
     return JSON.stringify(param);
   }
 
-  abrirArchivo(archivoSeleccionado: any)
-  {
-    window.location.href = archivoSeleccionado.documento;
+  abrirArchivo(archivoSeleccionado: any) {
+    var link = archivoSeleccionado.documento;
+    const downloadLink = document.createElement("a");
+    downloadLink.href = link;
+    downloadLink.download = archivoSeleccionado.nombre;
+    downloadLink.click();
   }
-
-  public downloadBase64File(contentType, base64Data, fileName) {
-    contentType = 'image'
-     const linkSource = `data:${contentType};base64,${base64Data}`;
-     const downloadLink = document.createElement("a");
-     downloadLink.href = linkSource;
-     downloadLink.download = fileName;
-     downloadLink.click();
-}
 
   prueba(idPrueba: any) {
     this.ruta.navigate(['postular/' + idPrueba]);

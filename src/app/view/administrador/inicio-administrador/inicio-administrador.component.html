@@ -36,7 +36,7 @@
         <li>
           <a (click)="manageDashboards(4)">
             <i class="nc-icon nc-circle-10"></i>
-            <p>Solicitudes</p>
+            <p>Solicitudes Aceptadas</p>
           </a>
         </li>
 
@@ -70,10 +70,9 @@
     </nav>
     <!-- End Navbar -->
 
-    <!-- CURSO -->
-    <br><br>
+      <br><br>
 
-    <!--curso-->
+    <!--Certificaciones-->
     <div *ngIf="view.panel01">
       <section class="cards-section text-center">
         <div class="container">
@@ -206,7 +205,7 @@
     </div>
 
 
-    <!--Solicitudes-->
+    <!--Solicitudes Aceptadas-->
     <div *ngIf="view.panel04">
       <section class="cards-section text-center">
         <div class="container">
@@ -607,13 +606,33 @@
   aria-labelledby="archivosSolicitud" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content" style="padding: 25px;">
-
-      <h5 class="modal-title">Archivos Participante</h5>
-      <br>
-      <div>
-
-        Pancha
-
+      <div class="modal-header">
+        <h5 class="modal-title">Archivos Participante</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Documento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr  *ngFor="let item of lstArchivosParticipante; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td><span>{{ item.tipo }}</span></td>
+                <td><span>{{ item.nombre }}</span></td>
+                <td><a (click)="abrirArchivo(item)" target="_blank"><b>Ver Archivo</b><i style="font-size: 15px !important; color: darkred;" class="far fa-file-pdf"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

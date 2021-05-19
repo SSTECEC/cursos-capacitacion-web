@@ -102,7 +102,7 @@ export class InicioAdministradorComponent implements OnInit {
   /* listar lstParticipante */
   lstPostulacionAprobadas: Postulacion[] = [];
 
-  lstArchivosParticipante = [];
+  lstArchivosParticipante : any = [];
 
   tipoCurso = 0;
   tipoInstituto = 0;
@@ -212,11 +212,11 @@ export class InicioAdministradorComponent implements OnInit {
     $("#archivosSolicitud").modal("toggle");
 
     this.spinner.show();
-    this.conexion.get("listarArchivosPostulaciones?idParticipante=" + id, "").subscribe(
+    this.conexion.get("listarArchivos?idParticipante=" + id, "").subscribe(
       (res: any) => {
         this.spinner.hide();
-        this.lstArchivosParticipante = res;
-        console.log(res);
+        this.lstArchivosParticipante = res.resultado;
+        console.log(this.lstArchivosParticipante);
       }, err => {
         this.spinner.hide();
         console.log(err)
@@ -228,6 +228,19 @@ export class InicioAdministradorComponent implements OnInit {
     return JSON.stringify(param);
   }
 
+  abrirArchivo(archivoSeleccionado: any)
+  {
+    window.location.href = archivoSeleccionado.documento;
+  }
+
+  public downloadBase64File(contentType, base64Data, fileName) {
+    contentType = 'image'
+     const linkSource = `data:${contentType};base64,${base64Data}`;
+     const downloadLink = document.createElement("a");
+     downloadLink.href = linkSource;
+     downloadLink.download = fileName;
+     downloadLink.click();
+}
 
   prueba(idPrueba: any) {
     this.ruta.navigate(['postular/' + idPrueba]);

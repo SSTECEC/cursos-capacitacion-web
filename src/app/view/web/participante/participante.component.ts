@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Archivo } from 'src/app/clases/Archivo';
 import { Participante } from 'src/app/clases/Participante';
 import { ApiService } from 'src/app/servicios/api/api.service';
 import Swal from 'sweetalert2';
 import { GenericoService } from 'src/app/servicios/metodo/generico.service';
-import { ArchivosPostulacion } from 'src/app/clases/ArchivosPostulacion';
+import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -73,10 +72,10 @@ export class ParticipanteComponent implements OnInit {
   tipoParticipante = 0;
   lstInputsCapacitaciones: any = [];
 
-  constructor(private router: ActivatedRoute, private conexion: ApiService, private spinner: NgxSpinnerService, private formBuilder: FormBuilder, public generico: GenericoService) { }
+  constructor(private activatedRoute: ActivatedRoute, private conexion: ApiService, private spinner: NgxSpinnerService, private formBuilder: FormBuilder, public generico: GenericoService, public router: Router) { }
 
   ngOnInit(): void {
-    this.idParticipante = parseInt(this.router.snapshot.params.id);
+    this.idParticipante = parseInt(this.activatedRoute.snapshot.params.id);
     /*    this.listarParticipante(); */
   }
 
@@ -262,6 +261,7 @@ export class ParticipanteComponent implements OnInit {
         (res: any) => {
           this.spinner.hide();
           console.log(res);
+          this.router.navigate(['/']);
         }, err => {
           this.spinner.hide();
           console.log(err)
